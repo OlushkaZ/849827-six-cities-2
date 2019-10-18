@@ -1,6 +1,6 @@
 import React from "react";
-import {PageMain} from '../page-main/page-main.jsx';
-export const App = () => {
+import PageMain from '../page-main/page-main.jsx';
+const App = () => {
   // const {gameTime, errorCount} = props;
 
   return <PageMain
@@ -8,3 +8,4 @@ export const App = () => {
     // errorCount={errorCount}
   />;
 };
+export default App;

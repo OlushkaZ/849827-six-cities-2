@@ -1,6 +1,6 @@
 import React from "react";
 // import ReactDOM from "react-dom";
-export const PageMain = () => {
+const PageMain = () => {
   // const {time, errorCount} = props;
 
   return <div className="page page--gray page--main">
@@ -268,3 +268,4 @@ export const PageMain = () => {
   </div>;
 
 };
+export default PageMain;
