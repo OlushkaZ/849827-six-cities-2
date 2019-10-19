@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {App} from './components/app/app.jsx';
+import App from './components/app/app.jsx';
 const init = () => {
-  // const settings = {
-  //   gameTime: 5,
-  //   errorCount: 3,
-  // };
+  const offers = [`Beautiful & luxurious apartment at great location`,
+    `Wood and stone place`,
+    `Canal View Prinsengracht`,
+    `Nice, cozy, warm big bed apartment`
+  ];
 
   ReactDOM.render(
       <App
-        // errorCount={settings.errorCount}
-        // gameTime={settings.gameTime}
+        offers={offers}
       />,
       document.querySelector(`#root`)
   );

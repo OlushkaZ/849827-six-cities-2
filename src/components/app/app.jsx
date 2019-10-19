@@ -1,10 +1,14 @@
 import React from "react";
-import {PageMain} from '../page-main/page-main.jsx';
-export const App = () => {
-  // const {gameTime, errorCount} = props;
+import PageMain from '../page-main/page-main.jsx';
+import PropTypes from "prop-types";
+const App = (props) => {
+  const {offers} = props;
 
   return <PageMain
-    // time={gameTime}
-    // errorCount={errorCount}
+    offers={offers}
   />;
 };
+App.propTypes = {
+  offers: PropTypes.arrayOf(PropTypes.string),
+};
+export default App;
