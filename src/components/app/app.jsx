@@ -1,8 +1,8 @@
 import React from "react";
 import PageMain from '../page-main/page-main.jsx';
 import PropTypes from "prop-types";
-const App = (props) => {
-  const {offers} = props;
+const App = ({offers}) => {
+  // const {offers} = props;
 
   return <PageMain
     offers={offers}
