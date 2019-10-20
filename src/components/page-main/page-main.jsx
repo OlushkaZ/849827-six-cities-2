@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-const PageMain = ({offers}) => {
-  // const {offers} = props;
+const PageMain = ({offers, onClick}) => {
 
   return <div className="page page--gray page--main">
     <header className="header">
@@ -109,7 +108,7 @@ const PageMain = ({offers}) => {
                       <b className="place-card__price-value">&euro;120</b>
                       <span className="place-card__price-text">&#47;&nbsp;night</span>
                     </div>
-                    <button className="place-card__bookmark-button button" type="button">
+                    <button className="place-card__bookmark-button button" type="button" onClick = {onClick}>
                       <svg className="place-card__bookmark-icon" width="18" height="19">
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
@@ -142,5 +141,6 @@ const PageMain = ({offers}) => {
 };
 PageMain.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.string),
+  onClick: ()=>{},
 };
 export default PageMain;
