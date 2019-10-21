@@ -7,10 +7,12 @@ const init = () => {
     `Canal View Prinsengracht`,
     `Nice, cozy, warm big bed apartment`
   ];
+  const onClick = ()=> {};
 
   ReactDOM.render(
       <App
         offers={offers}
+        onClick={onClick}
       />,
       document.querySelector(`#root`)
   );

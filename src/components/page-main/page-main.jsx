@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-const PageMain = (props) => {
-  const {offers} = props;
+const PageMain = ({offers, onClick}) => {
 
   return <div className="page page--gray page--main">
     <header className="header">
@@ -84,12 +83,14 @@ const PageMain = (props) => {
                 <li className="places__option" tabIndex="0">Price: high to low</li>
                 <li className="places__option" tabIndex="0">Top rated first</li>
               </ul>
+              {/*
               <select className="places__sorting-type" id="places-sorting">
                 <option className="places__option" value="popular" defaultValue="">Popular</option>
                 <option className="places__option" value="to-high">Price: low to high</option>
                 <option className="places__option" value="to-low">Price: high to low</option>
                 <option className="places__option" value="top-rated">Top rated first</option>
               </select>
+            */}
             </form>
             <div className="cities__places-list places__list tabs__content">
               {offers.map((title, i)=><article key={title + i} className="cities__place-card place-card">
@@ -107,7 +108,7 @@ const PageMain = (props) => {
                       <b className="place-card__price-value">&euro;120</b>
                       <span className="place-card__price-text">&#47;&nbsp;night</span>
                     </div>
-                    <button className="place-card__bookmark-button button" type="button">
+                    <button className="place-card__bookmark-button button" type="button" onClick = {onClick}>
                       <svg className="place-card__bookmark-icon" width="18" height="19">
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
@@ -140,5 +141,6 @@ const PageMain = (props) => {
 };
 PageMain.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.string),
+  onClick: ()=>{},
 };
 export default PageMain;
