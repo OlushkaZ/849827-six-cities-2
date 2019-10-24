@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
-const PageMain = ({offers}) => {
+const PageMain = ({offers, onClick}) => {
 
   return <div className="page page--gray page--main">
     <header className="header">
@@ -95,6 +95,7 @@ const PageMain = ({offers}) => {
             </form>
             <PlaceList
               offers={offers}
+              onClick = {onClick}
             />
           </section>
           <div className="cities__right-section">
@@ -115,7 +116,7 @@ PageMain.propTypes = {
         type: PropTypes.string,
         src: PropTypes.string,
       })
-  )
-  // onClick: ()=>{},
+  ),
+  onClick: PropTypes.func,
 };
 export default PageMain;

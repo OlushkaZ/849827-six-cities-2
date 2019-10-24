@@ -11,15 +11,16 @@ class PlaceList extends React.PureComponent {
   }
 
   render() {
-    const {offers} = this.props;
+    const {offers, onClick} = this.props;
     return <div className="cities__places-list places__list tabs__content">
       {offers.map((offer, i)=>{
         return <PlaceCard
           key={offer.title + i}
           id={i + 1}
           offer={offer}
+          onClick={onClick}
           onUserHover={(id) => {
-            console.log(this.state)
+            // console.log(this.state);
             this.setState(() => {
               return {activCard: id};
             }
@@ -40,6 +41,7 @@ PlaceList.propTypes = {
         type: PropTypes.string,
         src: PropTypes.string,
       })
-  )
+  ),
+  onClick: PropTypes.func,
 };
 export default PlaceList;

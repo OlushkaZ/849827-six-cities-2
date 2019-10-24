@@ -5,7 +5,13 @@ import App from './app.jsx';
 it(`App correctly renders after relaunch`, () => {
   const tree = renderer
  .create(<App
-   offers = {[``, ``]}
+   offers = {[{
+     title: ``,
+     coast: 0,
+     isPremium: true,
+     type: ``,
+     src: ``,
+   }]}
  />)
  .toJSON();
   expect(tree).toMatchSnapshot();

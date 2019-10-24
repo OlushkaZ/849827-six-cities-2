@@ -5,7 +5,9 @@ const App = ({offers}) => {
 
   return <PageMain
     offers={offers}
-    // onClick={onClick}
+    onClick={()=>{
+      // console.log(`hi`);
+    }}
   />;
 };
 App.propTypes = {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 const PlaceCard = (props) => {
-  const {id, offer, onUserHover} = props;
+  const {id, offer, onUserHover, onClick} = props;
 
   return <article className="cities__place-card place-card" onMouseEnter = {()=>onUserHover(id)} onMouseLeave = {()=>onUserHover(null)}>
     <div className="place-card__mark">
@@ -31,7 +31,7 @@ const PlaceCard = (props) => {
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
-      <h2 className="place-card__name">
+      <h2 className="place-card__name" onClick = {onClick}>
         <a href="#">{offer.title}</a>
       </h2>
       <p className="place-card__type">{offer.type}</p>
@@ -49,5 +49,6 @@ PlaceCard.propTypes = {
     src: PropTypes.string,
   }),
   onUserHover: PropTypes.func,
+  onClick: PropTypes.func,
 };
 export default PlaceCard;

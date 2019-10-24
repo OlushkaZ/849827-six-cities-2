@@ -1,19 +1,19 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PageMain from './page-main.jsx';
+import PlaceCard from './place-card.jsx';
 
-it(`PageMain correctly renders after relaunch`, () => {
+it(`PlaceCard correctly renders after relaunch`, () => {
   const tree = renderer
- .create(<PageMain
-   offers = {[{
+ .create(<PlaceCard
+   id = {1}
+   offer = {{
      title: ``,
      coast: 0,
      isPremium: true,
      type: ``,
-     src: ``,
-   }]}
-   // minutes={0}
-   // onClick={jest.fn()}
+     src: ``
+   }}
+   onUserHover={jest.fn()}
  />)
  .toJSON();
   expect(tree).toMatchSnapshot();
