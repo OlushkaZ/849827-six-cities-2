@@ -21,9 +21,10 @@ class PlaceList extends React.PureComponent {
           onClick={onClick}
           onUserHover={(id) => {
             // console.log(this.state);
-            this.setState(() => {
-              return {activCard: id};
-            }
+            this.setState({activCard: id}
+            // this.setState(() => {
+            //   return {activCard: id};
+            // }
             );
           }}
         />;
