@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PageMain from './page-main.jsx';
+import PlaceList from './place-list.jsx';
 
-it(`PageMain correctly renders after relaunch`, () => {
+it(`PlaceList correctly renders after relaunch`, () => {
   const tree = renderer
- .create(<PageMain
+ .create(<PlaceList
    offers = {[{
      title: ``,
      coast: 0,

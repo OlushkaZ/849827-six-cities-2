@@ -1,15 +1,25 @@
 import React from "react";
 import PageMain from '../page-main/page-main.jsx';
 import PropTypes from "prop-types";
-const App = ({offers, onClick}) => {
+const App = ({offers}) => {
 
   return <PageMain
     offers={offers}
-    onClick={onClick}
+    onClick={()=>{
+      // console.log(`hi`);
+    }}
   />;
 };
 App.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.string),
-  onClick: ()=>{},
+  offers: PropTypes.arrayOf(
+      PropTypes.exact({
+        title: PropTypes.string,
+        coast: PropTypes.number,
+        isPremium: PropTypes.bool,
+        type: PropTypes.string,
+        src: PropTypes.string,
+      })
+  )
+  // onClick: ()=>{},
 };
 export default App;
