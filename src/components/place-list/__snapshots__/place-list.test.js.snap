@@ -96,7 +96,7 @@ exports[`PlaceList correctly renders after relaunch 1`] = `
         className="place-card__name"
       >
         <a
-          href="#"
+          href="details1"
         >
           
         </a>

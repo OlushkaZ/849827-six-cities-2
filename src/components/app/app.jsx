@@ -1,15 +1,25 @@
 import React from "react";
 import PageMain from '../page-main/page-main.jsx';
+import DetailInfo from '../detail-info/detail-info.jsx';
 import PropTypes from "prop-types";
-const App = ({offers}) => {
 
-  return <PageMain
-    offers={offers}
-    onClick={()=>{
-      // console.log(`hi`);
-    }}
-  />;
+const getPageScreen = (offers) => {
+  const pathName = (location.pathname.replace(/\d/, ``));
+  const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
+  switch (pathName) {
+    case `/`:
+      return <PageMain offers={offers} onClick={()=>{}} />;
+    case `/details`:
+      return <DetailInfo offerInfo={offers[cardNumber]}/>;
+  }
+  return null;
 };
+
+const App = (props) => {
+  const {offers} = props;
+  return getPageScreen(offers);
+};
+
 App.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
@@ -20,6 +30,5 @@ App.propTypes = {
         src: PropTypes.string,
       })
   )
-  // onClick: ()=>{},
 };
 export default App;
