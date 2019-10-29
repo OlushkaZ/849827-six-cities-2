@@ -32,7 +32,7 @@ const PlaceCard = (props) => {
         </div>
       </div>
       <h2 className="place-card__name" onClick = {onClick}>
-        <a href="#">{offer.title}</a>
+        <a href={`details${id}`}>{offer.title}</a>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>
