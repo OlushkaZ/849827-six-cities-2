@@ -42,11 +42,13 @@ const PlaceCard = (props) => {
 PlaceCard.propTypes = {
   id: PropTypes.number,
   offer: PropTypes.exact({
+    id: PropTypes.string,
     title: PropTypes.string,
     coast: PropTypes.number,
     isPremium: PropTypes.bool,
     type: PropTypes.string,
     src: PropTypes.string,
+    coordinates: PropTypes.arrayOf(PropTypes.number)
   }),
   onUserHover: PropTypes.func,
   onClick: PropTypes.func,

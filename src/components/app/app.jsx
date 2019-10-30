@@ -23,11 +23,13 @@ const App = (props) => {
 App.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        id: PropTypes.string,
         title: PropTypes.string,
         coast: PropTypes.number,
         isPremium: PropTypes.bool,
         type: PropTypes.string,
         src: PropTypes.string,
+        coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   )
 };

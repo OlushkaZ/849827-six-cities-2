@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
+import Map from '../map/map.jsx';
 const PageMain = ({offers, onClick}) => {
 
   return <div className="page page--gray page--main">
@@ -99,7 +100,11 @@ const PageMain = ({offers, onClick}) => {
             />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map">
+              <Map
+                offers={offers}
+              />
+            </section>
           </div>
         </div>
       </div>
@@ -110,11 +115,13 @@ const PageMain = ({offers, onClick}) => {
 PageMain.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        id: PropTypes.string,
         title: PropTypes.string,
         coast: PropTypes.number,
         isPremium: PropTypes.bool,
         type: PropTypes.string,
         src: PropTypes.string,
+        coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   ),
   onClick: PropTypes.func,
