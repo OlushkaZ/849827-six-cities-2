@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PageMain from './page-main.jsx';
+import Map from './map.jsx';
 
 jest.mock(`leaflet`, ()=> {
   return {
@@ -23,9 +23,10 @@ jest.mock(`leaflet`, ()=> {
   };
 });
 
-it(`PageMain correctly renders after relaunch`, () => {
+it(`Map correctly renders after relaunch`, () => {
+
   const tree = renderer
- .create(<PageMain
+ .create(<Map
    offers = {[{
      id: `id1`,
      title: ``,
@@ -35,8 +36,6 @@ it(`PageMain correctly renders after relaunch`, () => {
      src: ``,
      coordinates: [0, 0]
    }]}
-   // minutes={0}
-   // onClick={jest.fn()}
  />)
  .toJSON();
   expect(tree).toMatchSnapshot();

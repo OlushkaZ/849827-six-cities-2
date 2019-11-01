@@ -11,11 +11,13 @@ it(`Hover on card takes good data`, () => {
     key={``}
     id={1}
     offer = {{
+      id: `id1`,
       title: ``,
       coast: 0,
       isPremium: true,
       type: ``,
       src: ``,
+      coordinates: [0, 0]
     }}
     onClick={()=>{}}
     onUserHover={hoverHandler}
@@ -23,5 +25,5 @@ it(`Hover on card takes good data`, () => {
   const placeCardElement = placeCard.find(`.cities__place-card`);
   placeCardElement.simulate(`mouseEnter`);
   expect(hoverHandler).toHaveBeenCalledTimes(1);
-  expect(hoverHandler).toHaveBeenCalledWith(1);
+  expect(hoverHandler).toHaveBeenCalledWith(`id1`);
 });

@@ -13,10 +13,9 @@ class PlaceList extends React.PureComponent {
   render() {
     const {offers, onClick} = this.props;
     return <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer, i)=>{
+      {offers.map((offer)=>{
         return <PlaceCard
-          key={offer.title + i}
-          id={i + 1}
+          key={offer.id}
           offer={offer}
           onClick={onClick}
           onUserHover={(id) => {
@@ -36,11 +35,13 @@ class PlaceList extends React.PureComponent {
 PlaceList.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        id: PropTypes.string,
         title: PropTypes.string,
         coast: PropTypes.number,
         isPremium: PropTypes.bool,
         type: PropTypes.string,
         src: PropTypes.string,
+        coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   ),
   onClick: PropTypes.func,

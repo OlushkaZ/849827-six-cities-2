@@ -5,13 +5,14 @@ import PlaceCard from './place-card.jsx';
 it(`PlaceCard correctly renders after relaunch`, () => {
   const tree = renderer
  .create(<PlaceCard
-   id = {1}
    offer = {{
+     id: `id1`,
      title: ``,
      coast: 0,
      isPremium: true,
      type: ``,
-     src: ``
+     src: ``,
+     coordinates: [0, 0]
    }}
    onUserHover={jest.fn()}
  />)
