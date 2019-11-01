@@ -13,10 +13,9 @@ class PlaceList extends React.PureComponent {
   render() {
     const {offers, onClick} = this.props;
     return <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer, i)=>{
+      {offers.map((offer)=>{
         return <PlaceCard
-          key={offer.title + i}
-          id={i + 1}
+          key={offer.id}
           offer={offer}
           onClick={onClick}
           onUserHover={(id) => {

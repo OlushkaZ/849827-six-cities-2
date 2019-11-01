@@ -6,11 +6,13 @@ it(`PlaceList correctly renders after relaunch`, () => {
   const tree = renderer
  .create(<PlaceList
    offers = {[{
+     id: `id1`,
      title: ``,
      coast: 0,
      isPremium: true,
      type: ``,
      src: ``,
+     coordinates: [0, 0]
    }]}
    // minutes={0}
    // onClick={jest.fn()}

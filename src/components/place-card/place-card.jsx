@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 const PlaceCard = (props) => {
-  const {id, offer, onUserHover, onClick} = props;
+  const {offer, onUserHover, onClick} = props;
 
-  return <article className="cities__place-card place-card" onMouseEnter = {()=>onUserHover(id)} onMouseLeave = {()=>onUserHover(null)}>
+  return <article className="cities__place-card place-card" onMouseEnter = {()=>onUserHover(offer.id)} onMouseLeave = {()=>onUserHover(null)}>
     <div className="place-card__mark">
       <span>Premium</span>
     </div>
@@ -32,7 +32,7 @@ const PlaceCard = (props) => {
         </div>
       </div>
       <h2 className="place-card__name" onClick = {onClick}>
-        <a href={`details${id}`}>{offer.title}</a>
+        <a href={`details${offer.id.slice(2)}`}>{offer.title}</a>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>
@@ -40,7 +40,6 @@ const PlaceCard = (props) => {
 };
 
 PlaceCard.propTypes = {
-  id: PropTypes.number,
   offer: PropTypes.exact({
     id: PropTypes.string,
     title: PropTypes.string,
