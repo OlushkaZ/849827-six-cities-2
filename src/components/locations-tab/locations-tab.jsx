@@ -66,7 +66,29 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
 });
 
 const mapDispatchToProps = (dispatch)=>({
-  onMyClick: (city)=>dispatch(ActionCreator.changeCity(city))
+  onMyClick: (city)=>{
+    dispatch(ActionCreator.changeCity(city));
+    dispatch(ActionCreator.getOffers([
+      {
+        id: `id21`,
+        type: `room`,
+        title: `Wood`,
+        coast: 1245,
+        isPremium: false,
+        src: `http://placeimg.com/260/200/arch`,
+        coordinates: [52.3909553943508, 4.929309666406198]
+      },
+      {
+        id: `id41`,
+        type: `castle`,
+        title: `Canal View Prinsengracht`,
+        coast: 1,
+        isPremium: false,
+        src: `http://placeimg.com/260/200/arch`,
+        coordinates: [52.3809553943508, 4.939309666406198]
+      },
+    ]));
+  }
 });
 // 1.55
 export {LocationsTab};

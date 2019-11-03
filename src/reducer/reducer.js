@@ -55,10 +55,10 @@ const initialState = {
 export const reducer = (state = initialState, action)=>{
   switch (action.type) {
     case `CHANGE_CITY`: return Object.assign(
-        {}, state, {city: action.payload}
+        {}, state, {currentCity: action.payload}
     );
     case `GET_OFFERS`: return Object.assign(
-        {}, state, {offers: action.payload}
+        {}, state, {currentOffers: action.payload}
     );
     case `RESET`: return Object.assign(
         {}, initialState
@@ -73,9 +73,9 @@ export const ActionCreator = {
     type: `CHANGE_CITY`,
     payload: city
   }),
-  getOffers: ()=>({
+  getOffers: (offers)=>({
     type: `GET_OFFERS`,
-    payload: [{}, {}]
+    payload: offers
   }),
   reset: ()=>({
     type: `RESET`
