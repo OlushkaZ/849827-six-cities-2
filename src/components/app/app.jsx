@@ -1,4 +1,5 @@
 import React from "react";
+// import {connect} from "react-redux";
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
 import PropTypes from "prop-types";
@@ -24,6 +25,7 @@ App.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.string,
+        city: PropTypes.string,
         title: PropTypes.string,
         coast: PropTypes.number,
         isPremium: PropTypes.bool,
@@ -34,3 +36,13 @@ App.propTypes = {
   )
 };
 export default App;
+
+// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+//   city: state.city,
+//   offers: state.offers,
+// });
+// export {App};
+// export default connect(mapStateToProps, mapDispatchToProps
+// )(
+//     App
+// );

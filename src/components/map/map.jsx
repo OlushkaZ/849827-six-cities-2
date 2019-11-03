@@ -49,6 +49,7 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.string,
+        city: PropTypes.string,
         title: PropTypes.string,
         coast: PropTypes.number,
         isPremium: PropTypes.bool,

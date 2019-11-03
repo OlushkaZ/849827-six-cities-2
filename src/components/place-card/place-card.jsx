@@ -42,6 +42,7 @@ const PlaceCard = (props) => {
 PlaceCard.propTypes = {
   offer: PropTypes.exact({
     id: PropTypes.string,
+    city: PropTypes.string,
     title: PropTypes.string,
     coast: PropTypes.number,
     isPremium: PropTypes.bool,
