@@ -1,5 +1,6 @@
 import React from "react";
 // import {connect} from "react-redux";
+// import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
 import PropTypes from "prop-types";
@@ -9,7 +10,7 @@ const getPageScreen = (offers) => {
   const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
   switch (pathName) {
     case `/`:
-      return <PageMain offers={offers} onClick={()=>{}} />;
+      return <PageMain offers={offers} onClick={()=>{}}/>;
     case `/details`:
       return <DetailInfo offerInfo={offers[cardNumber]}/>;
   }
@@ -18,6 +19,10 @@ const getPageScreen = (offers) => {
 
 const App = (props) => {
   const {offers} = props;
+  // const onStartApp = ()=>{
+  //   console.log(`fff`)
+  // };
+  // onStartApp(offers[0].city, [offers[0], offers[1]]);
   return getPageScreen(offers);
 };
 
@@ -35,14 +40,5 @@ App.propTypes = {
       })
   )
 };
-export default App;
 
-// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-//   city: state.city,
-//   offers: state.offers,
-// });
-// export {App};
-// export default connect(mapStateToProps, mapDispatchToProps
-// )(
-//     App
-// );
+export default App;

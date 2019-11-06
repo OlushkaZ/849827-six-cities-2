@@ -2,31 +2,37 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {ActionCreator} from '../../reducer/reducer';
+import {chooseOffersByCity} from '../../utils.js';
 const CITY_COUNT = 6;
 
 class LocationsTab extends React.PureComponent {
-  // constructor(props) {
-  //   super(props);
-  //
-  //   // this.state = {
-  //   //   activCard: 1,
-  //   // };
-  // }
+//   constructor(props) {
+//     super(props);
+//
+//     // this.state = {
+//     //   activCard: 1,
+//     // };
+//     // this._chooseOffersByCity = this._chooseOffersByCity.bind(this);
+//   }
   _getCities() {
     const {offers} = this.props;
-    const arr = offers.map(({city})=>city);
-    return arr.filter((item, pos)=>{
-      return arr.indexOf(item) === pos;
+    const cities = offers.map(({city})=>city);
+    return cities.filter((item, pos)=>{
+      return cities.indexOf(item) === pos;
     }).slice(0, CITY_COUNT);
 
   }
+  // _chooseOffersByCity(city) {
+  //   const {offers} = this.props;
+  //   return offers.slice().filter((offer)=>offer.city === city);
+  // }
 
   render() {
-    const {currentCity, onMyClick} = this.props;
+    const {currentCity, onMyClick, offers} = this.props;
     const handleTabClick = (evt)=>{
       const {target} = evt;
       evt.preventDefault();
-      onMyClick(target.textContent.toLowerCase());
+      onMyClick(target.textContent, chooseOffersByCity(target.textContent, offers));
     };
     // const onMyClick = ()=>{};
     return <section className="locations container">
@@ -66,28 +72,11 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
 });
 
 const mapDispatchToProps = (dispatch)=>({
-  onMyClick: (city)=>{
+  onMyClick: (city, offers)=>{
     dispatch(ActionCreator.changeCity(city));
-    dispatch(ActionCreator.getOffers([
-      {
-        id: `id21`,
-        type: `room`,
-        title: `Wood`,
-        coast: 1245,
-        isPremium: false,
-        src: `http://placeimg.com/260/200/arch`,
-        coordinates: [52.3909553943508, 4.929309666406198]
-      },
-      {
-        id: `id41`,
-        type: `castle`,
-        title: `Canal View Prinsengracht`,
-        coast: 1,
-        isPremium: false,
-        src: `http://placeimg.com/260/200/arch`,
-        coordinates: [52.3809553943508, 4.939309666406198]
-      },
-    ]));
+    dispatch(ActionCreator.getOffers(
+        offers
+    ));
   }
 });
 // 1.55

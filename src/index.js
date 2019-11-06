@@ -7,8 +7,9 @@ import Offers from './mocks/offers.js';
 import {reducer, ActionCreator} from './reducer/reducer';
 
 const init = () => {
-  const store = createStore(reducer);
-  // store.dispatch(ActionCreator.changeCity(`Budeevice`));
+  const store = createStore(reducer,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+  // store.dispatch(ActionCreator.changeCity(Offers[0].city));
   ReactDOM.render(<Provider store={store}>
     <App
       offers={Offers}
