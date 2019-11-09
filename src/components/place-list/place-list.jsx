@@ -12,7 +12,7 @@ class PlaceList extends React.PureComponent {
   }
 
   render() {
-    const {currentOffers, offers, onClick} = this.props;
+    const {currentOffers, onClick} = this.props;
     return <div className="cities__places-list places__list tabs__content">
       {currentOffers.map((offer)=>{
         return <PlaceCard

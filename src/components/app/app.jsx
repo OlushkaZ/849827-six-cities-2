@@ -19,10 +19,6 @@ const getPageScreen = (offers) => {
 
 const App = (props) => {
   const {offers} = props;
-  // const onStartApp = ()=>{
-  //   console.log(`fff`)
-  // };
-  // onStartApp(offers[0].city, [offers[0], offers[1]]);
   return getPageScreen(offers);
 };
 

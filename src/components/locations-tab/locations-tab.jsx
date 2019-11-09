@@ -28,7 +28,7 @@ class LocationsTab extends React.PureComponent {
   // }
 
   render() {
-    const {currentCity, onMyClick, offers} = this.props;
+    const {onMyClick, offers} = this.props;
     const handleTabClick = (evt)=>{
       const {target} = evt;
       evt.preventDefault();
