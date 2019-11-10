@@ -1,8 +1,10 @@
 import React from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
+import LocationsTab from '../locations-tab/locations-tab.jsx';
 import Map from '../map/map.jsx';
-const PageMain = ({offers, onClick}) => {
+const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
 
   return <div className="page page--gray page--main">
     <header className="header">
@@ -31,46 +33,18 @@ const PageMain = ({offers, onClick}) => {
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
-        <section className="locations container">
-          <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
-          </ul>
-        </section>
+        <LocationsTab
+          offers={offers}
+          // onMyClick = {()=>{
+          //   console.log(`myClick`);
+          // }}
+        />
       </div>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">312 places to stay in Amsterdam</b>
+            <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex="0">
@@ -116,6 +90,7 @@ PageMain.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.string,
+        city: PropTypes.string,
         title: PropTypes.string,
         coast: PropTypes.number,
         isPremium: PropTypes.bool,
@@ -125,5 +100,34 @@ PageMain.propTypes = {
       })
   ),
   onClick: PropTypes.func,
+  currentCity: PropTypes.string,
+  currentOffers: PropTypes.arrayOf(
+      PropTypes.exact({
+        id: PropTypes.string,
+        city: PropTypes.string,
+        title: PropTypes.string,
+        coast: PropTypes.number,
+        isPremium: PropTypes.bool,
+        type: PropTypes.string,
+        src: PropTypes.string,
+        coordinates: PropTypes.arrayOf(PropTypes.number)
+      })
+  ),
 };
-export default PageMain;
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  currentCity: state.currentCity,
+  currentOffers: state.currentOffers,
+});
+
+// const mapDispatchToProps = (dispatch)=>({
+//   onMyClick: (city, offers)=>{
+//     dispatch(ActionCreator.changeCity(city));
+//     dispatch(ActionCreator.getOffers(
+//         offers
+//     ));
+//   }
+// });
+// 1.55
+export {PageMain};
+export default connect(mapStateToProps, null
+)(PageMain);
