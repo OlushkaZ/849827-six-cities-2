@@ -1,21 +1,20 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PlaceList from './place-list.jsx';
+import DetailInfo from './detail-info.jsx';
 
-it(`PlaceList correctly renders after relaunch`, () => {
+it(`DetailInfo correctly renders after relaunch`, () => {
   const tree = renderer
- .create(<PlaceList
-   offers = {[{
+ .create(<DetailInfo
+   offerInfo = {{
      id: `id1`,
+     city: ``,
      title: ``,
      coast: 0,
      isPremium: true,
      type: ``,
      src: ``,
      coordinates: [0, 0]
-   }]}
-   // minutes={0}
-   // onClick={jest.fn()}
+   }}
  />)
  .toJSON();
   expect(tree).toMatchSnapshot();
