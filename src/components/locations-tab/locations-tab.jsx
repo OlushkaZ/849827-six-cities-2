@@ -6,14 +6,10 @@ import {chooseOffersByCity} from '../../utils.js';
 const CITY_COUNT = 6;
 
 class LocationsTab extends React.PureComponent {
-//   constructor(props) {
-//     super(props);
-//
-//     // this.state = {
-//     //   activCard: 1,
-//     // };
-//     // this._chooseOffersByCity = this._chooseOffersByCity.bind(this);
-//   }
+  _isActiveSity(city) {
+    const {currentCity} = this.props;
+    return currentCity === city ? `locations__item-link tabs__item tabs__item--active` : `locations__item-link tabs__item`;
+  }
   _getCities() {
     const {offers} = this.props;
     const cities = offers.map(({city})=>city);
@@ -22,10 +18,6 @@ class LocationsTab extends React.PureComponent {
     }).slice(0, CITY_COUNT);
 
   }
-  // _chooseOffersByCity(city) {
-  //   const {offers} = this.props;
-  //   return offers.slice().filter((offer)=>offer.city === city);
-  // }
 
   render() {
     const {onMyClick, offers} = this.props;
@@ -34,12 +26,11 @@ class LocationsTab extends React.PureComponent {
       evt.preventDefault();
       onMyClick(target.textContent, chooseOffersByCity(target.textContent, offers));
     };
-    // const onMyClick = ()=>{};
     return <section className="locations container">
       <ul className="locations__list tabs__list">
         {this._getCities().map((city, ind)=>{
           return <li key={ind} className="locations__item">
-            <a className="locations__item-link tabs__item" href="#" onClick = {handleTabClick}>
+            <a className= {this._isActiveSity(city)} href="#" onClick = {handleTabClick}>
               <span>{city}</span>
             </a>
           </li>;
@@ -68,7 +59,6 @@ LocationsTab.propTypes = {
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentCity: state.currentCity,
-  // currentOffers: state.currentOffers,
 });
 
 const mapDispatchToProps = (dispatch)=>({
