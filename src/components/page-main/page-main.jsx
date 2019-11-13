@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
 import LocationsTab from '../locations-tab/locations-tab.jsx';
 import Map from '../map/map.jsx';
+import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
+
+const PlaceListWrapped = withActiveItem(PlaceList);
 const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
 
   return <div className="page page--gray page--main">
@@ -68,7 +71,7 @@ const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
               </select>
             */}
             </form>
-            <PlaceList
+            <PlaceListWrapped
               offers={offers}
               onClick = {onClick}
             />
