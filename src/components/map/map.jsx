@@ -43,45 +43,72 @@ export class Map extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const {zoom} = this.state;
-    const {currentOffers} = this.props;
-    const city = currentOffers[0].coordinates;
-    this.map.setView(city, zoom);
-    this._deleteMarkers();
-    this._addMarkers();
+    if (this.map) {
+      const {zoom} = this.state;
+      const {currentOffers} = this.props;
+      const city = currentOffers[0].coordinates;
+      this.map.setView(city, zoom);
+      this._deleteMarkers();
+      this._addMarkers();
+    }
   }
 
   componentDidMount() {
-    const {zoom, tileLayer, attribution} = this.state;
-    const city = this.props.currentOffers[0].coordinates;
-    this.map = leaflet.map(`map`, {
-      center: city,
-      zoom,
-      zoomControl: true,
-      marker: true
-    });
-    this.map.setView(city, zoom);
+    if (this.props.currentOffers.length > 0) {
+      const {zoom, tileLayer, attribution} = this.state;
+      const city = this.props.currentOffers[0].coordinates;
+      this.map = leaflet.map(`map`, {
+        center: city,
+        zoom,
+        zoomControl: true,
+        marker: true
+      });
+      this.map.setView(city, zoom);
 
-    leaflet
-  .tileLayer(tileLayer, {
-    attribution
-  })
-  .addTo(this.map);
+      leaflet
+    .tileLayer(tileLayer, {
+      attribution
+    })
+    .addTo(this.map);
 
-    this._addMarkers();
+      this._addMarkers();
+    }
   }
 }
 Map.propTypes = {
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
-        id: PropTypes.string,
-        city: PropTypes.string,
-        title: PropTypes.string,
-        coast: PropTypes.number,
+        city: PropTypes.exact({
+          name: PropTypes.string,
+          location: PropTypes.exact({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          })
+        }),
+        description: PropTypes.string,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatarUrl: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        id: PropTypes.number,
+        images: PropTypes.arrayOf(PropTypes.string),
+        isFavorite: PropTypes.bool,
         isPremium: PropTypes.bool,
+        location: PropTypes.exact({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+        maxAdults: PropTypes.number,
+        previewImage: PropTypes.string,
+        price: PropTypes.number,
+        rating: PropTypes.number,
+        title: PropTypes.string,
         type: PropTypes.string,
-        src: PropTypes.string,
-        coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   ),
 };

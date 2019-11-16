@@ -87,7 +87,7 @@ const DetailInfo = ({offerInfo}) => {
               </li>
             </ul>
             <div className="property__price">
-              <b className="property__price-value">&euro;{offerInfo.coast}</b>
+              <b className="property__price-value">&euro;{offerInfo.price}</b>
               <span className="property__price-text">&nbsp;night</span>
             </div>
             <div className="property__inside">

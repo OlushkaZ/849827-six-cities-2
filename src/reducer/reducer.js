@@ -1,25 +1,60 @@
 
+// import Offers from '../mocks/offers.js';
+import createAPI from '../create-api';
 import {chooseOffersByCity} from '../utils.js';
-import Offers from '../mocks/offers.js';
-import configureAPI from '../configure-api';
 
 
 const initialState = {
-  currentCity: Offers[0].city,
-  currentOffers: [
-    {
-      id: `id1`,
-      city: `crumlov`,
-      type: `apartment`,
-      title: `Beautiful & luxurious apartment at great location`,
-      coast: 120,
-      isPremium: true,
-      src: `http://placeimg.com/260/200/arch`,
-      coordinates: [48.806887, 14.308579]
-    }],
+  currentCity: `Hamburg`,
+  currentOffers: [],
+  // currentOffers: [
+  //   {
+  //     bedrooms: 2,
+  //     city: {
+  //       location: {
+  //         latitude: 53.550341,
+  //         longitude: 10.000654,
+  //         zoom: 13,
+  //       },
+  //       name: `Hamburg`},
+  //     description: `This is a  sun sets.`,
+  //     goods: [
+  //       `Air conditioning`,
+  //       `Towels`,
+  //       `Washer`,
+  //       `Breakfast`,
+  //       `Fridge`,
+  //     ],
+  //     host: {
+  //       avatarUrl: `img/avatar-angelina.jpg`,
+  //       id: 25,
+  //       isPro: true,
+  //       name: `Angelina`},
+  //     id: 19,
+  //     images: [
+  //       `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/16.jpg`,
+  //       `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/9.jpg`,
+  //       `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/19.jpg`,
+  //     ],
+  //     isFavorite: false,
+  //     isPremium: false,
+  //     location: {
+  //       latitude: 53.573341000000006,
+  //       longitude: 9.994654,
+  //       zoom: 16,
+  //     },
+  //     maxAdults: 4,
+  //     previewImage: `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/13.jpg`,
+  //     price: 897,
+  //     rating: 4.7,
+  //     title: `Beautiful & luxurious apartment at great location`,
+  //     type: `house`,
+  //
+  //   }],
   // currentCity: ``,
   // currentOffers: [],
   offers: [],
+  isLoading: false,
 };
 
 const ActionType = {
@@ -68,13 +103,51 @@ const ActionCreator = {
 
 const Operation = {
   loadOffers: () => (dispatch) => {
-    return configureAPI.get(`/hotels`)
-    .then((response)=>{
-      dispatch(ActionCreator.loadOffers(response.data));
-      dispatch(ActionCreator.changeCity(response.data[0].city.name));
-      dispatch(ActionCreator.getOffers(chooseOffersByCity(response.data[0].city, response.data)));
+    return createAPI(dispatch).get(`/hotels`)
+    .then((response)=>adapteOffers(response.data))
+    .then((offers)=>{
+      dispatch(ActionCreator.loadOffers(offers));
+      dispatch(ActionCreator.changeCity(offers[0].city.name));
+      dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city, offers)));
+
     });
   },
+};
+
+const adapteOffers = (offers)=>{
+  return offers.map((offer)=>({
+    city: {
+      name: offer.city.name,
+      location: {
+        latitude: offer.city.location.latitude,
+        longitude: offer.city.location.longitude,
+        zoom: offer.city.location.zoom,
+      }
+    },
+    description: offer.description,
+    goods: [...offer.goods],
+    host: {
+      avatarUrl: offer.host.avatar_url,
+      id: offer.host.id,
+      isPro: offer.host.is_pro,
+      name: offer.host.name,
+    },
+    id: offer.id,
+    images: [...offer.images],
+    isFavorite: offer.is_favorite,
+    isPremium: offer.is_premium,
+    location: {
+      latitude: offer.location.latitude,
+      longitude: offer.location.longitude,
+      zoom: offer.location.zoom,
+    },
+    maxAdults: offer.max_adults,
+    previewImage: offer.preview_image,
+    price: offer.price,
+    rating: offer.rating,
+    title: offer.titile,
+    type: offer.type,
+  }));
 };
 
 export {

@@ -5,13 +5,12 @@ import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import {compose} from "recompose";
 import App from './components/app/app.jsx';
-import Offers from './mocks/offers.js';
+// import Offers from './mocks/offers.js';
 import {reducer, Operation} from './reducer/reducer';
-import configureAPI from './configure-api';
-
+import createAPI from './create-api';
 
 const init = () => {
-  const api = configureAPI((...args) => store.dispatch(...args));
+  const api = createAPI((...args) => store.dispatch(...args));
   /* eslint-disable no-underscore-dangle */
   const store = createStore(
       reducer,
@@ -25,7 +24,7 @@ const init = () => {
 
   ReactDOM.render(<Provider store={store}>
     <App
-      offers={Offers}
+      // offers={Offers}
     />
   </Provider>,
   document.querySelector(`#root`)
