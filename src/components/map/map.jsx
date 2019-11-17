@@ -12,7 +12,12 @@ export class Map extends React.PureComponent {
         iconUrl: `./img/pin.svg`,
         iconSize: [30, 30]
       }),
-      zoom: 12,
+      iconActive: leaflet.icon({
+        title: `cc`,
+        iconUrl: `./img/pin-active.svg`,
+        iconSize: [30, 30]
+      }),
+      // zoom: 12,
       tileLayer: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`,
       markers: [],
@@ -21,8 +26,7 @@ export class Map extends React.PureComponent {
 
   _addMarkers() {
     this.props.currentOffers.forEach((offer)=>{
-      const marker = leaflet
-    .marker(offer.coordinates, this.state.icon);
+      const marker = leaflet.marker([offer.location.latitude, offer.location.longitude], this.state.iconActive);
       this.state.markers.push(marker);
       this.map.addLayer(marker);
     });
@@ -44,19 +48,17 @@ export class Map extends React.PureComponent {
 
   componentDidUpdate() {
     if (this.map) {
-      const {zoom} = this.state;
       const {currentOffers} = this.props;
-      const city = currentOffers[0].coordinates;
+      const {zoom} = currentOffers[0].city.location.zoom;
+      const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
       this.map.setView(city, zoom);
       this._deleteMarkers();
       this._addMarkers();
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.currentOffers.length > 0) {
-      const {zoom, tileLayer, attribution} = this.state;
-      const city = this.props.currentOffers[0].coordinates;
+    } else if (this.props.currentOffers.length > 0) {
+      const {tileLayer, attribution} = this.state;
+      const {currentOffers} = this.props;
+      const zoom = currentOffers[0].city.location.zoom;
+      const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
       this.map = leaflet.map(`map`, {
         center: city,
         zoom,
@@ -73,6 +75,28 @@ export class Map extends React.PureComponent {
 
       this._addMarkers();
     }
+  }
+
+  componentDidMount() {
+    // if (this.props.currentOffers.length > 0) {
+    //   const {zoom, tileLayer, attribution} = this.state;
+    //   const city = this.props.currentOffers[0].coordinates;
+    //   this.map = leaflet.map(`map`, {
+    //     center: city,
+    //     zoom,
+    //     zoomControl: true,
+    //     marker: true
+    //   });
+    //   this.map.setView(city, zoom);
+    //
+    //   leaflet
+    // .tileLayer(tileLayer, {
+    //   attribution
+    // })
+    // .addTo(this.map);
+    //
+    //   this._addMarkers();
+    // }
   }
 }
 Map.propTypes = {

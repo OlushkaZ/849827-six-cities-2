@@ -108,7 +108,7 @@ const Operation = {
     .then((offers)=>{
       dispatch(ActionCreator.loadOffers(offers));
       dispatch(ActionCreator.changeCity(offers[0].city.name));
-      dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city, offers)));
+      dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city.name, offers)));
 
     });
   },
