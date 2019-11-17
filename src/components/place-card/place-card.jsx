@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {ActionCreator} from '../../reducer/reducer';
 const PlaceCard = (props) => {
   const {offer, onUserHover, onClick} = props;
 
@@ -76,4 +78,19 @@ PlaceCard.propTypes = {
   onUserHover: PropTypes.func,
   onClick: PropTypes.func,
 };
-export default PlaceCard;
+// export default PlaceCard;
+// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+//   currentCity: state.currentCity,
+//   currentOffers: state.currentOffers,
+// });
+
+const mapDispatchToProps = (dispatch)=>({
+  onUserHover: (offerID)=>{
+    dispatch(ActionCreator.changeCurrentOffer(
+        offerID
+    ));
+  }
+});
+export {PlaceCard};
+export default connect(null, mapDispatchToProps
+)(PlaceCard);

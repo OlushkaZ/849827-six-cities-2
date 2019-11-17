@@ -5,7 +5,8 @@ import {chooseOffersByCity} from '../utils.js';
 
 
 const initialState = {
-  currentCity: `Hamburg`,
+  currentCity: ``,
+  currentOffer: 0,
   currentOffers: [],
   // currentOffers: [
   //   {
@@ -59,6 +60,7 @@ const initialState = {
 
 const ActionType = {
   CHANGE_CITY: `CHANGE_CITY`,
+  CHANGE_CURRENT_OFFER: `CHANGE_CURRENT_OFFER`,
   GET_OFFERS: `GET_OFFERS`,
   RESET: `RESET`,
   LOAD_OFFERS: `LOAD_OFFERS`,
@@ -68,6 +70,9 @@ const reducer = (state = initialState, action)=>{
   switch (action.type) {
     case ActionType.CHANGE_CITY: return Object.assign(
         {}, state, {currentCity: action.payload}
+    );
+    case ActionType.CHANGE_CURRENT_OFFER: return Object.assign(
+        {}, state, {currentOffer: action.payload}
     );
     case ActionType.GET_OFFERS: return Object.assign(
         {}, state, {currentOffers: action.payload}
@@ -87,6 +92,10 @@ const ActionCreator = {
   changeCity: (city)=>({
     type: ActionType.CHANGE_CITY,
     payload: city
+  }),
+  changeCurrentOffer: (offerID)=>({
+    type: ActionType.CHANGE_CURRENT_OFFER,
+    payload: offerID
   }),
   getOffers: (offers)=>({
     type: ActionType.GET_OFFERS,

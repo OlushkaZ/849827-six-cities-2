@@ -24,21 +24,10 @@ export class Map extends React.PureComponent {
   }
 
   _addMarkers() {
-    // const markerOptions = {
-    //   title: `MyLocation`,
-    //   clickable: true,
-    //   draggable: true,
-    //   icon: this.state.icon
-    // };
-    // const markerOptionsActive = {
-    //   title: `MyLocation`,
-    //   clickable: true,
-    //   draggable: true,
-    //   icon: this.state.iconActive
-    // };
-    this.props.currentOffers.forEach((offer, ind)=>{
+    const {currentOffer} = this.props;
+    this.props.currentOffers.forEach((offer)=>{
       let marker;
-      if (ind === 3) {
+      if (offer.id === currentOffer) {
         marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.iconActive});
       } else {
         marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.icon});
@@ -116,6 +105,7 @@ export class Map extends React.PureComponent {
   }
 }
 Map.propTypes = {
+  currentOffer: PropTypes.number,
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
         city: PropTypes.exact({
@@ -154,6 +144,7 @@ Map.propTypes = {
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentOffers: state.currentOffers,
+  currentOffer: state.currentOffer,
 });
 
 export default connect(mapStateToProps, null
