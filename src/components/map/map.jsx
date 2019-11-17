@@ -13,7 +13,6 @@ export class Map extends React.PureComponent {
         iconSize: [30, 30]
       }),
       iconActive: leaflet.icon({
-        title: `cc`,
         iconUrl: `./img/pin-active.svg`,
         iconSize: [30, 30]
       }),
@@ -25,8 +24,25 @@ export class Map extends React.PureComponent {
   }
 
   _addMarkers() {
-    this.props.currentOffers.forEach((offer)=>{
-      const marker = leaflet.marker([offer.location.latitude, offer.location.longitude], this.state.iconActive);
+    // const markerOptions = {
+    //   title: `MyLocation`,
+    //   clickable: true,
+    //   draggable: true,
+    //   icon: this.state.icon
+    // };
+    // const markerOptionsActive = {
+    //   title: `MyLocation`,
+    //   clickable: true,
+    //   draggable: true,
+    //   icon: this.state.iconActive
+    // };
+    this.props.currentOffers.forEach((offer, ind)=>{
+      let marker;
+      if (ind === 3) {
+        marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.iconActive});
+      } else {
+        marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.icon});
+      }
       this.state.markers.push(marker);
       this.map.addLayer(marker);
     });
