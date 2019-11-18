@@ -93,7 +93,7 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
       className="place-card__name"
     >
       <a
-        href="details1"
+        href="details0"
       >
         
       </a>
