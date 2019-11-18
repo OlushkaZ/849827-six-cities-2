@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {ActionCreator} from '../../reducer/reducer';
 const PlaceCard = (props) => {
   const {offer, onUserHover, onClick} = props;
 
@@ -9,13 +11,13 @@ const PlaceCard = (props) => {
     </div>
     <div className="cities__image-wrapper place-card__image-wrapper">
       <a href="#">
-        <img className="place-card__image" src={offer.src} width="260" height="200" alt="Place image"/>
+        <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
       </a>
     </div>
     <div className="place-card__info">
       <div className="place-card__price-wrapper">
         <div className="place-card__price">
-          <b className="place-card__price-value">&euro;{offer.coast}</b>
+          <b className="place-card__price-value">&euro;{offer.price}</b>
           <span className="place-card__price-text">&#47;&nbsp;night</span>
         </div>
         <button className="place-card__bookmark-button button" type="button">
@@ -32,7 +34,7 @@ const PlaceCard = (props) => {
         </div>
       </div>
       <h2 className="place-card__name" onClick = {onClick}>
-        <a href={`details${offer.id.slice(2)}`}>{offer.title}</a>
+        <a href={`details${offer.id}`}>{offer.title}</a>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>
@@ -41,16 +43,54 @@ const PlaceCard = (props) => {
 
 PlaceCard.propTypes = {
   offer: PropTypes.exact({
-    id: PropTypes.string,
-    city: PropTypes.string,
-    title: PropTypes.string,
-    coast: PropTypes.number,
+    city: PropTypes.exact({
+      name: PropTypes.string,
+      location: PropTypes.exact({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        zoom: PropTypes.number,
+      })
+    }),
+    description: PropTypes.string,
+    goods: PropTypes.arrayOf(PropTypes.string),
+    host: PropTypes.exact({
+      avatarUrl: PropTypes.string,
+      id: PropTypes.number,
+      isPro: PropTypes.bool,
+      name: PropTypes.string,
+    }),
+    id: PropTypes.number,
+    images: PropTypes.arrayOf(PropTypes.string),
+    isFavorite: PropTypes.bool,
     isPremium: PropTypes.bool,
+    location: PropTypes.exact({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+      zoom: PropTypes.number,
+    }),
+    maxAdults: PropTypes.number,
+    previewImage: PropTypes.string,
+    price: PropTypes.number,
+    rating: PropTypes.number,
+    title: PropTypes.string,
     type: PropTypes.string,
-    src: PropTypes.string,
-    coordinates: PropTypes.arrayOf(PropTypes.number)
   }),
   onUserHover: PropTypes.func,
   onClick: PropTypes.func,
 };
-export default PlaceCard;
+// export default PlaceCard;
+// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+//   currentCity: state.currentCity,
+//   currentOffers: state.currentOffers,
+// });
+
+const mapDispatchToProps = (dispatch)=>({
+  onUserHover: (offerID)=>{
+    dispatch(ActionCreator.changeCurrentOffer(
+        offerID
+    ));
+  }
+});
+export {PlaceCard};
+export default connect(null, mapDispatchToProps
+)(PlaceCard);

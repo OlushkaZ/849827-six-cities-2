@@ -92,28 +92,83 @@ const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
 PageMain.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
-        id: PropTypes.string,
-        city: PropTypes.string,
-        title: PropTypes.string,
-        coast: PropTypes.number,
+        city: PropTypes.exact({
+          name: PropTypes.string,
+          location: PropTypes.exact({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          })
+        }),
+        description: PropTypes.string,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatarUrl: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        id: PropTypes.number,
+        images: PropTypes.arrayOf(PropTypes.string),
+        isFavorite: PropTypes.bool,
         isPremium: PropTypes.bool,
+        location: PropTypes.exact({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+        maxAdults: PropTypes.number,
+        previewImage: PropTypes.string,
+        price: PropTypes.number,
+        rating: PropTypes.number,
+        title: PropTypes.string,
         type: PropTypes.string,
-        src: PropTypes.string,
-        coordinates: PropTypes.arrayOf(PropTypes.number)
+        //
+        // id: PropTypes.string,
+        // city: PropTypes.string,
+        // title: PropTypes.string,
+        // coast: PropTypes.number,
+        // isPremium: PropTypes.bool,
+        // type: PropTypes.string,
+        // src: PropTypes.string,
+        // coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   ),
   onClick: PropTypes.func,
   currentCity: PropTypes.string,
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
-        id: PropTypes.string,
-        city: PropTypes.string,
-        title: PropTypes.string,
-        coast: PropTypes.number,
+        city: PropTypes.exact({
+          name: PropTypes.string,
+          location: PropTypes.exact({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          })
+        }),
+        description: PropTypes.string,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatarUrl: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        id: PropTypes.number,
+        images: PropTypes.arrayOf(PropTypes.string),
+        isFavorite: PropTypes.bool,
         isPremium: PropTypes.bool,
+        location: PropTypes.exact({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+        maxAdults: PropTypes.number,
+        previewImage: PropTypes.string,
+        price: PropTypes.number,
+        rating: PropTypes.number,
+        title: PropTypes.string,
         type: PropTypes.string,
-        src: PropTypes.string,
-        coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   ),
 };

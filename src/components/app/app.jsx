@@ -1,5 +1,5 @@
 import React from "react";
-// import {connect} from "react-redux";
+import {connect} from "react-redux";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
@@ -10,8 +10,10 @@ const getPageScreen = (offers) => {
   const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
   switch (pathName) {
     case `/`:
+      // return null;
       return <PageMain offers={offers} onClick={()=>{}}/>;
     case `/details`:
+      // return null;
       return <DetailInfo offerInfo={offers[cardNumber]}/>;
   }
   return null;
@@ -25,16 +27,57 @@ const App = (props) => {
 App.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
-        id: PropTypes.string,
-        city: PropTypes.string,
-        title: PropTypes.string,
-        coast: PropTypes.number,
+        city: PropTypes.exact({
+          name: PropTypes.string,
+          location: PropTypes.exact({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          })
+        }),
+        description: PropTypes.string,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatarUrl: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        id: PropTypes.number,
+        images: PropTypes.arrayOf(PropTypes.string),
+        isFavorite: PropTypes.bool,
         isPremium: PropTypes.bool,
+        location: PropTypes.exact({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+        maxAdults: PropTypes.number,
+        previewImage: PropTypes.string,
+        price: PropTypes.number,
+        rating: PropTypes.number,
+        title: PropTypes.string,
         type: PropTypes.string,
-        src: PropTypes.string,
-        coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   )
 };
 
-export default App;
+// export default App;
+
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  offers: state.offers,
+  // currentOffers: state.currentOffers,
+});
+
+// const mapDispatchToProps = (dispatch)=>({
+//   onMyClick: (city, offers)=>{
+//     dispatch(ActionCreator.changeCity(city));
+//     dispatch(ActionCreator.getOffers(
+//         offers
+//     ));
+//   }
+// });
+// 1.55
+export {App};
+export default connect(mapStateToProps, null
+)(App);
