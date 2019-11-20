@@ -1,16 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
-const DetailInfo = ({offerInfo}) => {
+const DetailInfo = (props) => {
+  const {offers, match} = props;
+  const offerInfo = offers[match.params.id];
 
   return <div className="page">
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link" href="/">
+            <Link to="/">
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-            </a>
+            </Link>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
@@ -31,24 +35,29 @@ const DetailInfo = ({offerInfo}) => {
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/room.jpg" alt="Photo studio"/>
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"/>
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-            </div>
+            {offerInfo.images.map((src, ind)=>{
+              return (<div key= {ind} className="property__image-wrapper">
+                <img className="property__image" src={src} alt="Photo studio"/>
+              </div>);
+            })}
+            // <div className="property__image-wrapper">
+            //   <img className="property__image" src="img/room.jpg" alt="Photo studio"/>
+            // </div>
+            // <div className="property__image-wrapper">
+            //   <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
+            // </div>
+            // <div className="property__image-wrapper">
+            //   <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"/>
+            // </div>
+            // <div className="property__image-wrapper">
+            //   <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"/>
+            // </div>
+            // <div className="property__image-wrapper">
+            //   <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"/>
+            // </div>
+            // <div className="property__image-wrapper">
+            //   <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
+            // </div>
           </div>
         </div>
         <div className="property__container container">
@@ -331,15 +340,48 @@ const DetailInfo = ({offerInfo}) => {
 };
 
 DetailInfo.propTypes = {
-  offerInfo: PropTypes.exact({
-    id: PropTypes.string,
-    city: PropTypes.string,
-    title: PropTypes.string,
-    coast: PropTypes.number,
-    isPremium: PropTypes.bool,
-    type: PropTypes.string,
-    src: PropTypes.string,
-    coordinates: PropTypes.arrayOf(PropTypes.number)
-  })
+  offers: PropTypes.arrayOf(
+      PropTypes.exact({
+        city: PropTypes.exact({
+          name: PropTypes.string,
+          location: PropTypes.exact({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          })
+        }),
+        description: PropTypes.string,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatarUrl: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        id: PropTypes.number,
+        images: PropTypes.arrayOf(PropTypes.string),
+        isFavorite: PropTypes.bool,
+        isPremium: PropTypes.bool,
+        location: PropTypes.exact({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+        maxAdults: PropTypes.number,
+        previewImage: PropTypes.string,
+        price: PropTypes.number,
+        rating: PropTypes.number,
+        title: PropTypes.string,
+        type: PropTypes.string,
+      })
+  ),
+  match: PropTypes.object,
 };
-export default DetailInfo;
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  offers: state.offers,
+  currentOffer: state.currentOffer,
+});
+
+export {DetailInfo};
+export default connect(mapStateToProps, null
+)(DetailInfo);

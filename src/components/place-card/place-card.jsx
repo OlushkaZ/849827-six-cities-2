@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ActionCreator} from '../../reducer/reducer';
+import {Link} from "react-router-dom";
 const PlaceCard = (props) => {
   const {offer, onUserHover, onClick} = props;
 
@@ -33,8 +34,10 @@ const PlaceCard = (props) => {
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
-      <h2 className="place-card__name" onClick = {onClick}>
-        <a href={`details${offer.id}`}>{offer.title}</a>
+
+      <h2 className="place-card__name" onClick = {()=>onClick(offer.id)}>
+
+        <Link to={`/details${offer.id}`}>{offer.description}</Link>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>
@@ -89,7 +92,12 @@ const mapDispatchToProps = (dispatch)=>({
     dispatch(ActionCreator.changeCurrentOffer(
         offerID
     ));
-  }
+  },
+  onClick: (offerID)=>{
+    dispatch(ActionCreator.changeCurrentOffer(
+        offerID
+    ));
+  },
 });
 export {PlaceCard};
 export default connect(null, mapDispatchToProps

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
+import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {compose} from "recompose";
 import App from './components/app/app.jsx';
@@ -23,9 +24,11 @@ const init = () => {
   store.dispatch(Operation.loadOffers());
 
   ReactDOM.render(<Provider store={store}>
-    <App
+    <BrowserRouter>
+      <App
       // offers={Offers}
-    />
+      />
+    </BrowserRouter>
   </Provider>,
   document.querySelector(`#root`)
   );

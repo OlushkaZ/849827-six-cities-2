@@ -7,7 +7,7 @@ import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
 
 const PlaceListWrapped = withActiveItem(PlaceList);
-const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
+const PageMain = ({offers, currentCity, currentOffers}) => {
 
   return <div className="page page--gray page--main">
     <header className="header">
@@ -73,7 +73,7 @@ const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
             </form>
             <PlaceListWrapped
               offers={offers}
-              onClick = {onClick}
+              onClick={()=>{}}
             />
           </section>
           <div className="cities__right-section">
@@ -134,7 +134,7 @@ PageMain.propTypes = {
         // coordinates: PropTypes.arrayOf(PropTypes.number)
       })
   ),
-  onClick: PropTypes.func,
+  // onClick: PropTypes.func,
   currentCity: PropTypes.string,
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
@@ -175,6 +175,7 @@ PageMain.propTypes = {
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentCity: state.currentCity,
   currentOffers: state.currentOffers,
+  offers: state.offers,
 });
 
 // const mapDispatchToProps = (dispatch)=>({
