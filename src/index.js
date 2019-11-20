@@ -23,6 +23,7 @@ const init = () => {
   /* eslint-enable */
   store.dispatch(Operation.loadOffers());
 
+
   ReactDOM.render(<Provider store={store}>
     <BrowserRouter>
       <App

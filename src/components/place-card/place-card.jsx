@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from '../../reducer/reducer';
+import {ActionCreator, Operation} from '../../reducer/reducer';
 import {Link} from "react-router-dom";
 const PlaceCard = (props) => {
   const {offer, onUserHover, onClick} = props;
@@ -37,7 +37,7 @@ const PlaceCard = (props) => {
 
       <h2 className="place-card__name" onClick = {()=>onClick(offer.id)}>
 
-        <Link to={`/details${offer.id}`}>{offer.description}</Link>
+        <Link to={`/details${offer.id}`}>{offer.title ? offer.title : `title`}</Link>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>
@@ -94,6 +94,7 @@ const mapDispatchToProps = (dispatch)=>({
     ));
   },
   onClick: (offerID)=>{
+    dispatch(Operation.loadComments(offerID));
     dispatch(ActionCreator.changeCurrentOffer(
         offerID
     ));

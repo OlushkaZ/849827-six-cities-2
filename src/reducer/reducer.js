@@ -55,6 +55,7 @@ const initialState = {
   // currentCity: ``,
   // currentOffers: [],
   offers: [],
+  comments: [],
   isLoading: false,
 };
 
@@ -64,6 +65,7 @@ const ActionType = {
   GET_OFFERS: `GET_OFFERS`,
   RESET: `RESET`,
   LOAD_OFFERS: `LOAD_OFFERS`,
+  LOAD_COMMENTS: `LOAD_COMMENTS`,
 };
 
 const reducer = (state = initialState, action)=>{
@@ -82,6 +84,9 @@ const reducer = (state = initialState, action)=>{
     );
     case ActionType.LOAD_OFFERS: return Object.assign(
         {}, state, {offers: action.payload}
+    );
+    case ActionType.LOAD_COMMENTS: return Object.assign(
+        {}, state, {comments: action.payload}
     );
   }
   return state;
@@ -108,6 +113,10 @@ const ActionCreator = {
     type: ActionType.LOAD_OFFERS,
     payload: offers
   }),
+  loadComments: (comments)=>({
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments
+  }),
 };
 
 const Operation = {
@@ -121,6 +130,30 @@ const Operation = {
 
     });
   },
+  loadComments: (id) => (dispatch) => {
+    return createAPI(dispatch).get(`/comments/${id}`)
+    .then((response)=>adapteComments(response.data))
+    .then((comments)=>{
+      dispatch(ActionCreator.loadComments(comments));
+    //   dispatch(ActionCreator.changeCity(offers[0].city.name));
+    //   dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city.name, offers)));
+    });
+  },
+};
+
+const adapteComments = (comments)=>{
+  return comments.map((comment)=>({
+    id: comment.id,
+    user: {
+      id: comment.user.id,
+      isPro: comment.user.is_pro,
+      name: comment.user.name,
+      avatarUrl: comment.user.avatar_url,
+    },
+    rating: comment.rating,
+    comment: comment.comment,
+    date: comment.date,
+  }));
 };
 
 const adapteOffers = (offers)=>{
