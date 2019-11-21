@@ -1,4 +1,5 @@
 import leaflet from "leaflet";
+import leafletGM from "leaflet-geometryutil";
 import {connect} from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
@@ -24,8 +25,8 @@ export class Map extends React.PureComponent {
   }
 
   _addMarkers() {
-    const {currentOffer} = this.props;
-    this.props.currentOffers.forEach((offer)=>{
+    const {currentOffer, currentOffers} = this.props;
+    currentOffers.forEach((offer)=>{
       let marker;
       if (offer.id === currentOffer) {
         marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.iconActive});
@@ -35,6 +36,7 @@ export class Map extends React.PureComponent {
       this.state.markers.push(marker);
       this.map.addLayer(marker);
     });
+    console.log(leafletGM.nClosestLayers(this.map, this.state.markers, [currentOffers[currentOffer].location.latitude, currentOffers[currentOffer].location.latitude], 3));
   }
 
   _deleteMarkers() {
