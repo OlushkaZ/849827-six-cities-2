@@ -66,6 +66,7 @@ const ActionType = {
   RESET: `RESET`,
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_COMMENTS: `LOAD_COMMENTS`,
+  IS_LOADING: `IS_LOADING`,
 };
 
 const reducer = (state = initialState, action)=>{
@@ -87,6 +88,9 @@ const reducer = (state = initialState, action)=>{
     );
     case ActionType.LOAD_COMMENTS: return Object.assign(
         {}, state, {comments: action.payload}
+    );
+    case ActionType.IS_LOADING: return Object.assign(
+        {}, state, {isLoading: action.payload}
     );
   }
   return state;
@@ -117,6 +121,10 @@ const ActionCreator = {
     type: ActionType.LOAD_COMMENTS,
     payload: comments
   }),
+  isLoading: (i)=>({
+    type: ActionType.IS_LOADING,
+    payload: i
+  }),
 };
 
 const Operation = {
@@ -125,9 +133,10 @@ const Operation = {
     .then((response)=>adapteOffers(response.data))
     .then((offers)=>{
       dispatch(ActionCreator.loadOffers(offers));
-      dispatch(ActionCreator.changeCity(offers[0].city.name));
-      dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city.name, offers)));
-
+      const city = offers[0].city.name;
+      dispatch(ActionCreator.changeCity(city));
+      dispatch(ActionCreator.getOffers(chooseOffersByCity(city, offers)));
+      dispatch(ActionCreator.isLoading(true));
     });
   },
   loadComments: (id) => (dispatch) => {

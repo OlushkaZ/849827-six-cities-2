@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import ReviewList from '../review-list/review-list.jsx';
+import Map from '../map/map.jsx';
 
 const DetailInfo = (props) => {
   const {offers, match} = props;
@@ -143,7 +144,11 @@ const DetailInfo = (props) => {
             </ReviewList>
           </div>
         </div>
-        <section className="property__map map"></section>
+        <section className="property__map map">
+          <Map
+            onlyClosest = {true}
+          />
+        </section>
       </section>
       <div className="container">
         <section className="near-places places">

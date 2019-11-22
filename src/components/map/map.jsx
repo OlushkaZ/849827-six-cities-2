@@ -11,32 +11,47 @@ export class Map extends React.PureComponent {
     this.state = {
       icon: leaflet.icon({
         iconUrl: `./img/pin.svg`,
-        iconSize: [30, 30]
+        iconSize: [30, 30],
       }),
       iconActive: leaflet.icon({
         iconUrl: `./img/pin-active.svg`,
         iconSize: [30, 30]
       }),
-      // zoom: 12,
       tileLayer: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
       attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`,
       markers: [],
     };
   }
+  _createMarkerWithGoodColor(coordinates, offerID) {
+    const {currentOffer} = this.props;
+    let marker;
+    if (offerID === currentOffer) {
+      marker = leaflet.marker(coordinates, {icon: this.state.iconActive});
+    } else {
+      marker = leaflet.marker(coordinates, {icon: this.state.icon});
+    }
+    return marker;
+  }
 
   _addMarkers() {
-    const {currentOffer, currentOffers} = this.props;
+    const {currentOffer, currentOffers, onlyClosest} = this.props;
     currentOffers.forEach((offer)=>{
-      let marker;
-      if (offer.id === currentOffer) {
-        marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.iconActive});
-      } else {
-        marker = leaflet.marker([offer.location.latitude, offer.location.longitude], {icon: this.state.icon});
-      }
+      const marker = this._createMarkerWithGoodColor([offer.location.latitude, offer.location.longitude], offer.id);
       this.state.markers.push(marker);
-      this.map.addLayer(marker);
     });
-    console.log(leafletGM.nClosestLayers(this.map, this.state.markers, [currentOffers[currentOffer].location.latitude, currentOffers[currentOffer].location.latitude], 3));
+    let markers = this.state.markers;
+    if (onlyClosest) {
+      const offer = currentOffers.slice().filter((of)=>of.id === currentOffer);
+      const curentOfferCoordinates = [offer[0].location.latitude, offer[0].location.longitude];
+      const closestPoints = leafletGM.nClosestLayers(this.map, this.state.markers, curentOfferCoordinates, 4);
+      markers.length = 0;
+      closestPoints.forEach((point)=>{
+        markers.push(this._createMarkerWithGoodColor(point.latlng, -1));
+      }
+      );
+      markers.push(this._createMarkerWithGoodColor(curentOfferCoordinates, currentOffer));
+    }
+    markers.forEach((marker)=>this.map.addLayer(marker));
   }
 
   _deleteMarkers() {
@@ -54,59 +69,44 @@ export class Map extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    if (this.map) {
-      const {currentOffers} = this.props;
-      const {zoom} = currentOffers[0].city.location.zoom;
-      const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
-      this.map.setView(city, zoom);
-      this._deleteMarkers();
-      this._addMarkers();
-    } else if (this.props.currentOffers.length > 0) {
-      const {tileLayer, attribution} = this.state;
-      const {currentOffers} = this.props;
-      const zoom = currentOffers[0].city.location.zoom;
-      const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
-      this.map = leaflet.map(`map`, {
-        center: city,
-        zoom,
-        zoomControl: true,
-        marker: true
-      });
-      this.map.setView(city, zoom);
-
-      leaflet
-    .tileLayer(tileLayer, {
-      attribution
-    })
-    .addTo(this.map);
-
-      this._addMarkers();
-    }
+    const {currentOffers} = this.props;
+    const zoom = currentOffers[0].city.location.zoom;
+    const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
+    this.map.setView(city, zoom);
+    this._deleteMarkers();
+    this._addMarkers();
   }
 
   componentDidMount() {
-    // if (this.props.currentOffers.length > 0) {
-    //   const {zoom, tileLayer, attribution} = this.state;
-    //   const city = this.props.currentOffers[0].coordinates;
-    //   this.map = leaflet.map(`map`, {
-    //     center: city,
-    //     zoom,
-    //     zoomControl: true,
-    //     marker: true
-    //   });
-    //   this.map.setView(city, zoom);
-    //
-    //   leaflet
-    // .tileLayer(tileLayer, {
-    //   attribution
-    // })
-    // .addTo(this.map);
-    //
-    //   this._addMarkers();
-    // }
+    // console.log(`did mount` + this.props.currentOffer + this.props.currentOffers.length);
+    if (this.props.currentOffers.length > 0) {
+      const {currentOffers} = this.props;
+      const zoom = currentOffers[0].city.location.zoom;
+      const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
+      if (!this.map) {
+        const {tileLayer, attribution} = this.state;
+        this.map = leaflet.map(`map`, {
+          center: city,
+          zoom,
+          zoomControl: true,
+          marker: true
+        });
+
+        leaflet
+        .tileLayer(tileLayer, {
+          attribution
+        })
+        .addTo(this.map);
+      }
+      this.map.setView(city, zoom);
+      this._deleteMarkers();
+      this._addMarkers();
+    }
   }
 }
+
 Map.propTypes = {
+  onlyClosest: PropTypes.bool,
   currentOffer: PropTypes.number,
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({

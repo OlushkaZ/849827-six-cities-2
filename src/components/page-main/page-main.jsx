@@ -7,8 +7,10 @@ import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
 
 const PlaceListWrapped = withActiveItem(PlaceList);
-const PageMain = ({offers, currentCity, currentOffers}) => {
-
+const PageMain = ({offers, currentCity, currentOffers, isLoading}) => {
+  if (!isLoading) {
+    return ``;
+  }
   return <div className="page page--gray page--main">
     <header className="header">
       <div className="container">
@@ -79,7 +81,8 @@ const PageMain = ({offers, currentCity, currentOffers}) => {
           <div className="cities__right-section">
             <section className="cities__map map">
               <Map
-                offers={offers}
+                // offers={offers}
+                onlyClosest = {false}
               />
             </section>
           </div>
@@ -171,11 +174,13 @@ PageMain.propTypes = {
         type: PropTypes.string,
       })
   ),
+  isLoading: PropTypes.bool
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentCity: state.currentCity,
   currentOffers: state.currentOffers,
   offers: state.offers,
+  isLoading: state.isLoading,
 });
 
 // const mapDispatchToProps = (dispatch)=>({
