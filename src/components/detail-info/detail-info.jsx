@@ -5,10 +5,9 @@ import {Link} from "react-router-dom";
 import ReviewList from '../review-list/review-list.jsx';
 import NearPlaceList from '../near-place-list/near-place-list.jsx';
 import Map from '../map/map.jsx';
-
 const DetailInfo = (props) => {
   const {offers, match} = props;
-  const offerInfo = offers[match.params.id];
+  const offerInfo = offers.filter((offer)=>offer.id === Number(match.params.id))[0];
 
   return <div className="page">
     <header className="header">
@@ -38,7 +37,7 @@ const DetailInfo = (props) => {
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offerInfo.images.map((src, ind)=>{
+            {offerInfo.images.slice(0, 6).map((src, ind)=>{
               return (<div key= {ind} className="property__image-wrapper">
                 <img className="property__image" src={src} alt="Photo studio"/>
               </div>);
@@ -64,20 +63,20 @@ const DetailInfo = (props) => {
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
-                <span style={{width: `96%`}}></span>
+                <span style={{width: `${Math.round(offerInfo.rating) * 20}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="property__rating-value rating__value">4.8</span>
+              <span className="property__rating-value rating__value">{Math.round(offerInfo.rating)}</span>
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
-                Entire place
+                {offerInfo.type}
               </li>
               <li className="property__feature property__feature--bedrooms">
-                3 Bedrooms
+                {offerInfo.bedrooms} Bedrooms
               </li>
               <li className="property__feature property__feature--adults">
-                Max 4 adults
+                Max {offerInfo.maxAdults} adults
               </li>
             </ul>
             <div className="property__price">
@@ -87,57 +86,29 @@ const DetailInfo = (props) => {
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                <li className="property__inside-item">
-                  Wi-Fi
-                </li>
-                <li className="property__inside-item">
-                  Washing machine
-                </li>
-                <li className="property__inside-item">
-                  Towels
-                </li>
-                <li className="property__inside-item">
-                  Heating
-                </li>
-                <li className="property__inside-item">
-                  Coffee machine
-                </li>
-                <li className="property__inside-item">
-                  Baby seat
-                </li>
-                <li className="property__inside-item">
-                  Kitchen
-                </li>
-                <li className="property__inside-item">
-                  Dishwasher
-                </li>
-                <li className="property__inside-item">
-                  Cabel TV
-                </li>
-                <li className="property__inside-item">
-                  Fridge
-                </li>
+                {offerInfo.goods.map((good, ind)=> {
+                  return (<li key={ind} className="property__inside-item">
+                    {good}
+                  </li>);
+                })}
               </ul>
             </div>
             <div className="property__host">
               <h2 className="property__host-title">Meet the host</h2>
               <div className="property__host-user user">
                 <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                  <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                  <img className="property__avatar user__avatar" src={offerInfo.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                 </div>
                 <span className="property__user-name">
-                  Angelina
+                  {offerInfo.host.name}
                 </span>
                 <span className="property__user-status">
-                  Pro
+                  {offerInfo.host.isPro ? `Pro` : ``}
                 </span>
               </div>
               <div className="property__description">
                 <p className="property__text">
-                  A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                </p>
-                <p className="property__text">
-                  An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                  {offerInfo.description}
                 </p>
               </div>
             </div>
@@ -162,6 +133,7 @@ const DetailInfo = (props) => {
 DetailInfo.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({

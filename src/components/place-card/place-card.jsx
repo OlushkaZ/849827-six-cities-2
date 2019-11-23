@@ -7,9 +7,10 @@ const PlaceCard = (props) => {
   const {offer, onUserHover, onClick} = props;
 
   return <article className="cities__place-card place-card" onMouseEnter = {()=>onUserHover(offer.id)} onMouseLeave = {()=>onUserHover(null)}>
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
+    {offer.isPremium ?
+      <div className="place-card__mark">
+        <span>Premium</span>
+      </div> : ``}
     <div className="cities__image-wrapper place-card__image-wrapper">
       <a href="#">
         <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
@@ -30,7 +31,7 @@ const PlaceCard = (props) => {
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{width: `93%`}}></span>
+          <span style={{width: `${Math.round(offer.rating) * 20}%`}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
@@ -46,6 +47,7 @@ const PlaceCard = (props) => {
 
 PlaceCard.propTypes = {
   offer: PropTypes.exact({
+    bedrooms: PropTypes.number,
     city: PropTypes.exact({
       name: PropTypes.string,
       location: PropTypes.exact({

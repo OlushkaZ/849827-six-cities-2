@@ -77,12 +77,15 @@ export class Map extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const {currentOffers} = this.props;
-    const zoom = currentOffers[0].city.location.zoom;
-    const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
-    this.map.setView(city, zoom);
-    this._deleteMarkers();
-    this._addMarkers();
+    const {onlyClosest} = this.props;
+    if (!onlyClosest) {
+      const {currentOffers} = this.props;
+      const zoom = currentOffers[0].city.location.zoom;
+      const city = [currentOffers[0].city.location.latitude, currentOffers[0].city.location.longitude];
+      this.map.setView(city, zoom);
+      this._deleteMarkers();
+      this._addMarkers();
+    }
   }
 
   componentDidMount() {
@@ -119,6 +122,7 @@ Map.propTypes = {
   currentOffer: PropTypes.number,
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({

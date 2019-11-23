@@ -43,6 +43,7 @@ class LocationsTab extends React.PureComponent {
 LocationsTab.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({

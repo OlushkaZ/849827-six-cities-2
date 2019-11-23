@@ -34,6 +34,7 @@ const NearPlaceList = (props)=> {
 NearPlaceList.propTypes = {
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({

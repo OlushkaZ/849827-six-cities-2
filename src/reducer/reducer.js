@@ -176,6 +176,7 @@ const adapteComments = (comments)=>{
 
 const adapteOffers = (offers)=>{
   return offers.map((offer)=>({
+    bedrooms: offer.bedrooms,
     city: {
       name: offer.city.name,
       location: {
@@ -205,7 +206,7 @@ const adapteOffers = (offers)=>{
     previewImage: offer.preview_image,
     price: offer.price,
     rating: offer.rating,
-    title: offer.titile,
+    title: offer.title,
     type: offer.type,
   }));
 };

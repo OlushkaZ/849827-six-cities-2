@@ -95,6 +95,7 @@ const PageMain = ({offers, currentCity, currentOffers, isLoading}) => {
 PageMain.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({
@@ -141,6 +142,7 @@ PageMain.propTypes = {
   currentCity: PropTypes.string,
   currentOffers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({
