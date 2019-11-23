@@ -57,6 +57,7 @@ const initialState = {
   offers: [],
   comments: [],
   isLoading: false,
+  closestPoints: [],
 };
 
 const ActionType = {
@@ -67,6 +68,7 @@ const ActionType = {
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_COMMENTS: `LOAD_COMMENTS`,
   IS_LOADING: `IS_LOADING`,
+  GET_CLOSEST: `GET_CLOSEST`,
 };
 
 const reducer = (state = initialState, action)=>{
@@ -91,6 +93,9 @@ const reducer = (state = initialState, action)=>{
     );
     case ActionType.IS_LOADING: return Object.assign(
         {}, state, {isLoading: action.payload}
+    );
+    case ActionType.GET_CLOSEST: return Object.assign(
+        {}, state, {closestPoints: action.payload}
     );
   }
   return state;
@@ -124,6 +129,10 @@ const ActionCreator = {
   isLoading: (i)=>({
     type: ActionType.IS_LOADING,
     payload: i
+  }),
+  getClosest: (closestPoints)=>({
+    type: ActionType.GET_CLOSEST,
+    payload: closestPoints
   }),
 };
 

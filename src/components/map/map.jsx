@@ -3,6 +3,7 @@ import leafletGM from "leaflet-geometryutil";
 import {connect} from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
+import {ActionCreator} from '../../reducer/reducer';
 
 export class Map extends React.PureComponent {
   constructor(props) {
@@ -32,6 +33,10 @@ export class Map extends React.PureComponent {
     }
     return marker;
   }
+  // _getClosest(clPoints) {
+  //   this.props.getClosest(clPoints);
+  //   return clPoints;
+  // }
 
   _addMarkers() {
     const {currentOffer, currentOffers, onlyClosest} = this.props;
@@ -41,14 +46,17 @@ export class Map extends React.PureComponent {
     });
     let markers = this.state.markers;
     if (onlyClosest) {
+      console.log(`111` + currentOffer);
       const offer = currentOffers.slice().filter((of)=>of.id === currentOffer);
       const curentOfferCoordinates = [offer[0].location.latitude, offer[0].location.longitude];
       const closestPoints = leafletGM.nClosestLayers(this.map, this.state.markers, curentOfferCoordinates, 4);
+      closestPoints.shift();
+      this.props.getClosest(closestPoints.map(({latlng})=>[latlng.lat, latlng.lng]));
       markers.length = 0;
       closestPoints.forEach((point)=>{
         markers.push(this._createMarkerWithGoodColor(point.latlng, -1));
-      }
-      );
+      });
+      // this._getClosest(closestPoints);
       markers.push(this._createMarkerWithGoodColor(curentOfferCoordinates, currentOffer));
     }
     markers.forEach((marker)=>this.map.addLayer(marker));
@@ -106,6 +114,7 @@ export class Map extends React.PureComponent {
 }
 
 Map.propTypes = {
+  getClosest: PropTypes.func,
   onlyClosest: PropTypes.bool,
   currentOffer: PropTypes.number,
   currentOffers: PropTypes.arrayOf(
@@ -149,5 +158,9 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentOffer: state.currentOffer,
 });
 
-export default connect(mapStateToProps, null
+const mapDispatchToProps = {
+  getClosest: ActionCreator.getClosest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps
 )(Map);

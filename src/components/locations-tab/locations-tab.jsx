@@ -87,9 +87,8 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
 const mapDispatchToProps = (dispatch)=>({
   onMyClick: (city, offers)=>{
     dispatch(ActionCreator.changeCity(city));
-    dispatch(ActionCreator.getOffers(
-        offers
-    ));
+    dispatch(ActionCreator.getOffers(offers));
+    dispatch(ActionCreator.getClosest([]));
   }
 });
 // 1.55

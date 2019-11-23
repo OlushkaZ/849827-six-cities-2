@@ -95,9 +95,7 @@ const mapDispatchToProps = (dispatch)=>({
   },
   onClick: (offerID)=>{
     dispatch(Operation.loadComments(offerID));
-    dispatch(ActionCreator.changeCurrentOffer(
-        offerID
-    ));
+    dispatch(ActionCreator.changeCurrentOffer(offerID));
   },
 });
 export {PlaceCard};
