@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {ActionCreator} from '../../reducer/reducer';
 import {chooseOffersByCity} from '../../utils.js';
+import {getCurrentOffers} from '../../selectors.js';
 const CITY_COUNT = 6;
 
 class LocationsTab extends React.PureComponent {
@@ -20,7 +21,8 @@ class LocationsTab extends React.PureComponent {
   }
 
   render() {
-    const {onMyClick, offers} = this.props;
+    const {onMyClick, offers, state} = this.props;
+    console.log(getCurrentOffers(state));
     const handleTabClick = (evt)=>{
       const {target} = evt;
       evt.preventDefault();
@@ -79,10 +81,12 @@ LocationsTab.propTypes = {
   ),
   onMyClick: PropTypes.func,
   currentCity: PropTypes.string,
+  state: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentCity: state.currentCity,
+  state
 });
 
 const mapDispatchToProps = (dispatch)=>({

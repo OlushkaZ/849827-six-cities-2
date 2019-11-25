@@ -3,14 +3,19 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
 import LocationsTab from '../locations-tab/locations-tab.jsx';
+import {getCurrentOffers} from '../../selectors.js';
 import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
 
 const PlaceListWrapped = withActiveItem(PlaceList);
-const PageMain = ({offers, currentCity, currentOffers, isLoading}) => {
+const PageMain = ({state}) => {
+  const isLoading = state.isLoading;
   if (!isLoading) {
     return ``;
   }
+  const currentOffers = getCurrentOffers(state);
+  const offers = state.offers;
+  const currentCity = state.currentCity;
   return <div className="page page--gray page--main">
     <header className="header">
       <div className="container">
@@ -176,13 +181,15 @@ PageMain.propTypes = {
         type: PropTypes.string,
       })
   ),
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  state: PropTypes.object,
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  currentCity: state.currentCity,
-  currentOffers: state.currentOffers,
-  offers: state.offers,
-  isLoading: state.isLoading,
+  state
+  // currentCity: state.currentCity,
+  // currentOffers: state.currentOffers,
+  // offers: state.offers,
+  // isLoading: state.isLoading,
 });
 
 // const mapDispatchToProps = (dispatch)=>({
