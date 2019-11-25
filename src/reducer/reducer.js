@@ -58,6 +58,7 @@ const initialState = {
   comments: [],
   isLoading: false,
   closestPoints: [],
+  sortType: `Popular`,
 };
 
 const ActionType = {
@@ -69,6 +70,7 @@ const ActionType = {
   LOAD_COMMENTS: `LOAD_COMMENTS`,
   IS_LOADING: `IS_LOADING`,
   GET_CLOSEST: `GET_CLOSEST`,
+  CHANGE_SORT_TYPE: `CHANGE_SORT_TYPE`,
 };
 
 const reducer = (state = initialState, action)=>{
@@ -96,6 +98,9 @@ const reducer = (state = initialState, action)=>{
     );
     case ActionType.GET_CLOSEST: return Object.assign(
         {}, state, {closestPoints: action.payload}
+    );
+    case ActionType.CHANGE_SORT_TYPE: return Object.assign(
+        {}, state, {sortType: action.payload}
     );
   }
   return state;
@@ -133,6 +138,10 @@ const ActionCreator = {
   getClosest: (closestPoints)=>({
     type: ActionType.GET_CLOSEST,
     payload: closestPoints
+  }),
+  changeSortType: (sortType)=>({
+    type: ActionType.CHANGE_SORT_TYPE,
+    payload: sortType
   }),
 };
 
