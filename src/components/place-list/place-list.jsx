@@ -3,18 +3,19 @@ import {connect} from "react-redux";
 import {ActionCreator} from '../../reducer/reducer';
 import PropTypes from "prop-types";
 import PlaceCard from '../place-card/place-card.jsx';
-const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHover})=> {
+const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHover, isElementOpen, handleSortClick, sortType})=> {
 
-  const handleSortClick = (evt)=>{
-    const {target} = evt;
-    // evt.preventDefault();
-    console.log(target.textContent);
-    // onSortClick(); сохраняет в стейт компонента инфу показывать или нет список сортировки
-  };
+  // const handleSortClick = (evt)=>{
+  //   const {target} = evt;
+  //   // evt.preventDefault();
+  //   console.log(target.textContent);
+  //   // onSortClick(); сохраняет в стейт компонента инфу показывать или нет список сортировки
+  // };
   const handleSortListClick = (evt)=>{
     const {target} = evt;
     // evt.preventDefault();
     console.log(target.textContent);
+    handleSortClick();
     onSortChange(target.textContent);
   };
 
@@ -24,17 +25,19 @@ const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHov
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex="0" onClick = {handleSortClick}>
-        Popular
+        {sortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
-        <li className="places__option places__option--active" tabIndex="0" onClick = {handleSortListClick}>Popular</li>
-        <li className="places__option" tabIndex="0" onClick = {handleSortListClick}>Price: low to high</li>
-        <li className="places__option" tabIndex="0" onClick = {handleSortListClick}>Price: high to low</li>
-        <li className="places__option" tabIndex="0" onClick = {handleSortListClick}>Top rated first</li>
-      </ul>
+      {isElementOpen ?
+        <ul className="places__options places__options--custom places__options--opened">
+          <li className="places__option places__option--active" tabIndex="0" onClick = {handleSortListClick}>Popular</li>
+          <li className="places__option" tabIndex="0" onClick = {handleSortListClick}>Price: low to high</li>
+          <li className="places__option" tabIndex="0" onClick = {handleSortListClick}>Price: high to low</li>
+          <li className="places__option" tabIndex="0" onClick = {handleSortListClick}>Top rated first</li>
+        </ul>
+        : ``}
       {/*
       <select className="places__sorting-type" id="places-sorting">
         <option className="places__option" value="popular" defaultValue="">Popular</option>
@@ -99,10 +102,14 @@ PlaceList.propTypes = {
   onUserHover: PropTypes.func,
   currentCity: PropTypes.string,
   onSortChange: PropTypes.func,
+  isElementOpen: PropTypes.bool,
+  handleSortClick: PropTypes.func,
+  sortType: PropTypes.string,
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentOffers: state.currentOffers,
   currentCity: state.currentCity,
+  sortType: state.sortType,
 });
 const mapDispatchToProps = (dispatch)=>({
   onSortChange: (sortType)=>{

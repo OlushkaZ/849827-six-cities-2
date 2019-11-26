@@ -3,17 +3,19 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
 import LocationsTab from '../locations-tab/locations-tab.jsx';
-// import {getCurrentOffers} from '../../selectors.js';
+import Sort from '../sort/sort.jsx';
+import {getCurrentOffers} from '../../selectors.js';
 import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
+import withInnerElement from '../../hocs/with-active-item/with-inner-element.js';
 
-const PlaceListWrapped = withActiveItem(PlaceList);
+const PlaceListWrapped = withActiveItem(withInnerElement(PlaceList, Sort));
 const PageMain = ({state}) => {
   const isLoading = state.isLoading;
   if (!isLoading) {
     return ``;
   }
-  // const currentOffers = getCurrentOffers(state);
+  const currentOffers = getCurrentOffers(state);
   const offers = state.offers;
   // const currentCity = state.currentCity;
   return <div className="page page--gray page--main">
