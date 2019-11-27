@@ -5,12 +5,33 @@ import {createSelector} from 'reselect';
 
 const offers = (state) => state.offers;
 const currentCity = (state) => state.currentCity;
+const sortType = (state) => state.sortType;
 
 export const getCurrentOffers = createSelector(
     offers,
     currentCity,
-    (ofs, city) => ofs.slice().filter((offer)=>offer.city.name === city)
+    sortType,
+    (ofs, city, sType) => {
+      const filteredOffers = ofs.slice()
+      .filter((offer)=>offer.city.name === city);
+      switch (sType) {
+        case `Price: low to high`:
+          filteredOffers.sort((a, b)=>a.price - b.price);
+          break;
+        case `Price: high to low`:
+          filteredOffers.sort((a, b)=>b.price - a.price);
+          break;
+        case `Top rated first`:
+          filteredOffers.sort((a, b)=>b.rating - a.rating);
+          break;
+        // case `Popular`:
+        //   sortedOffers = filteredOffers;
+        //   break;
+      }
+      return filteredOffers;
+    }
 );
+
 // offers.slice().filter((offer)=>offer.city.name === city);
 
 // const taxSelector = createSelector(

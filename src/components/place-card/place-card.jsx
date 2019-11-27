@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {ActionCreator, Operation} from '../../reducer/reducer';
 import {Link} from "react-router-dom";
 const PlaceCard = (props) => {
-  const {offer, onUserHover, onClick} = props;
+  const {offer, onUserHover, onTitleClick} = props;
 
   return <article className="cities__place-card place-card" onMouseEnter = {()=>onUserHover(offer.id)} onMouseLeave = {()=>onUserHover(null)}>
     {offer.isPremium ?
@@ -36,7 +36,7 @@ const PlaceCard = (props) => {
         </div>
       </div>
 
-      <h2 className="place-card__name" onClick = {()=>onClick(offer.id)}>
+      <h2 className="place-card__name" onClick = {()=>onTitleClick(offer.id)}>
 
         <Link to={`/details${offer.id}`}>{offer.title ? offer.title : `title`}</Link>
       </h2>
@@ -81,7 +81,7 @@ PlaceCard.propTypes = {
     type: PropTypes.string,
   }),
   onUserHover: PropTypes.func,
-  onClick: PropTypes.func,
+  onTitleClick: PropTypes.func,
 };
 // export default PlaceCard;
 // const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
@@ -95,7 +95,7 @@ const mapDispatchToProps = (dispatch)=>({
         offerID
     ));
   },
-  onClick: (offerID)=>{
+  onTitleClick: (offerID)=>{
     dispatch(Operation.loadComments(offerID));
     dispatch(ActionCreator.changeCurrentOffer(offerID));
   },

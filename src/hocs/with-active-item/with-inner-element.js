@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 
-const withInnerElement = (ExternalComponent, InnerElement) => {
+const withInnerElement = (ExternalComponent) => {
   class WithInnerElement extends PureComponent {
     constructor(props) {
       super(props);
@@ -25,7 +25,6 @@ const withInnerElement = (ExternalComponent, InnerElement) => {
         handleSortClick={() => {
           this.setState({isElementOpen: !this.state.isElementOpen});
         }}>
-        <InnerElement />
       </ExternalComponent>;
     }
   }

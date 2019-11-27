@@ -3,7 +3,9 @@ import {connect} from "react-redux";
 import {ActionCreator} from '../../reducer/reducer';
 import PropTypes from "prop-types";
 import PlaceCard from '../place-card/place-card.jsx';
-const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHover, isElementOpen, handleSortClick, sortType})=> {
+import {getCurrentOffers} from '../../selectors.js';
+const PlaceList = ({state, onSortChange, onUserHover, isElementOpen, handleSortClick})=> {
+  const currentOffers = getCurrentOffers(state);
 
   // const handleSortClick = (evt)=>{
   //   const {target} = evt;
@@ -18,14 +20,13 @@ const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHov
     handleSortClick();
     onSortChange(target.textContent);
   };
-
   return <section className="cities__places places">
     <h2 className="visually-hidden">Places</h2>
-    <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
+    <b className="places__found">{currentOffers.length} places to stay in {state.currentCity}</b>
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex="0" onClick = {handleSortClick}>
-        {sortType}
+        {state.sortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -53,7 +54,7 @@ const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHov
         return <PlaceCard
           key={offer.id}
           offer={offer}
-          onClick={onClick}
+          // onClick={onClick}
           onUserHover = {onUserHover}
         />;
       })}
@@ -62,54 +63,55 @@ const PlaceList = ({currentOffers, currentCity, onSortChange, onClick, onUserHov
 };
 
 PlaceList.propTypes = {
-  currentOffers: PropTypes.arrayOf(
-      PropTypes.exact({
-        bedrooms: PropTypes.number,
-        city: PropTypes.exact({
-          name: PropTypes.string,
-          location: PropTypes.exact({
-            latitude: PropTypes.number,
-            longitude: PropTypes.number,
-            zoom: PropTypes.number,
-          })
-        }),
-        description: PropTypes.string,
-        goods: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.exact({
-          avatarUrl: PropTypes.string,
-          id: PropTypes.number,
-          isPro: PropTypes.bool,
-          name: PropTypes.string,
-        }),
-        id: PropTypes.number,
-        images: PropTypes.arrayOf(PropTypes.string),
-        isFavorite: PropTypes.bool,
-        isPremium: PropTypes.bool,
-        location: PropTypes.exact({
-          latitude: PropTypes.number,
-          longitude: PropTypes.number,
-          zoom: PropTypes.number,
-        }),
-        maxAdults: PropTypes.number,
-        previewImage: PropTypes.string,
-        price: PropTypes.number,
-        rating: PropTypes.number,
-        title: PropTypes.string,
-        type: PropTypes.string,
-      })
-  ),
-  onClick: PropTypes.func,
+  // currentOffers: PropTypes.arrayOf(
+  //     PropTypes.exact({
+  //       bedrooms: PropTypes.number,
+  //       city: PropTypes.exact({
+  //         name: PropTypes.string,
+  //         location: PropTypes.exact({
+  //           latitude: PropTypes.number,
+  //           longitude: PropTypes.number,
+  //           zoom: PropTypes.number,
+  //         })
+  //       }),
+  //       description: PropTypes.string,
+  //       goods: PropTypes.arrayOf(PropTypes.string),
+  //       host: PropTypes.exact({
+  //         avatarUrl: PropTypes.string,
+  //         id: PropTypes.number,
+  //         isPro: PropTypes.bool,
+  //         name: PropTypes.string,
+  //       }),
+  //       id: PropTypes.number,
+  //       images: PropTypes.arrayOf(PropTypes.string),
+  //       isFavorite: PropTypes.bool,
+  //       isPremium: PropTypes.bool,
+  //       location: PropTypes.exact({
+  //         latitude: PropTypes.number,
+  //         longitude: PropTypes.number,
+  //         zoom: PropTypes.number,
+  //       }),
+  //       maxAdults: PropTypes.number,
+  //       previewImage: PropTypes.string,
+  //       price: PropTypes.number,
+  //       rating: PropTypes.number,
+  //       title: PropTypes.string,
+  //       type: PropTypes.string,
+  //     })
+  // ),
+  // onClick: PropTypes.func,
   onUserHover: PropTypes.func,
-  currentCity: PropTypes.string,
+  // currentCity: PropTypes.string,
   onSortChange: PropTypes.func,
   isElementOpen: PropTypes.bool,
   handleSortClick: PropTypes.func,
-  sortType: PropTypes.string,
+  // sortType: PropTypes.string,
+  state: PropTypes.object,
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  currentOffers: state.currentOffers,
-  currentCity: state.currentCity,
-  sortType: state.sortType,
+  state,
+  // currentCity: state.currentCity,
+  // sortType: state.sortType,
 });
 const mapDispatchToProps = (dispatch)=>({
   onSortChange: (sortType)=>{

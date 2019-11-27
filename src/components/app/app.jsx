@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+// import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
@@ -82,10 +82,10 @@ App.propTypes = {
 
 // export default App;
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  offers: state.offers,
-  // currentOffers: state.currentOffers,
-});
+// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+//   offers: state.offers,
+// currentOffers: state.currentOffers,
+// });
 
 // const mapDispatchToProps = (dispatch)=>({
 //   onMyClick: (city, offers)=>{
@@ -96,6 +96,6 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
 //   }
 // });
 // 1.55
-export {App};
-export default connect(mapStateToProps, null
-)(App);
+export default App;
+// export default connect(mapStateToProps, null
+// )(App);
