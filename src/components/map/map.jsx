@@ -48,7 +48,7 @@ export class Map extends React.PureComponent {
     });
     let markers = this.state.markers;
     if (onlyClosest) {
-      console.log(`111` + currentOffer);
+      // console.log(`111` + currentOffer);
       const offer = currentOffers.slice().filter((of)=>of.id === currentOffer);
       const curentOfferCoordinates = [offer[0].location.latitude, offer[0].location.longitude];
       const closestPoints = leafletGM.nClosestLayers(this.map, this.state.markers, curentOfferCoordinates, 4);

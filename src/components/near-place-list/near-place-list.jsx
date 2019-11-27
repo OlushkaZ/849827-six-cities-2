@@ -34,6 +34,7 @@ const NearPlaceList = (props)=> {
   return ``;
 };
 NearPlaceList.propTypes = {
+  state: PropTypes.object,
   // currentOffers: PropTypes.arrayOf(
   //     PropTypes.exact({
   //       bedrooms: PropTypes.number,

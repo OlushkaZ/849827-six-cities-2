@@ -16,7 +16,7 @@ const PlaceList = ({state, onSortChange, onUserHover, isElementOpen, handleSortC
   const handleSortListClick = (evt)=>{
     const {target} = evt;
     // evt.preventDefault();
-    console.log(target.textContent);
+    // console.log(target.textContent);
     handleSortClick();
     onSortChange(target.textContent);
   };
