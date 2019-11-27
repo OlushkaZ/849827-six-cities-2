@@ -1,10 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {PlaceCard} from './place-card.jsx';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 it(`PlaceCard correctly renders after relaunch`, () => {
   const tree = renderer
- .create(<PlaceCard
+ .create(<Router><PlaceCard
    offer = {{
      bedrooms: 0,
      city: {
@@ -43,7 +44,7 @@ it(`PlaceCard correctly renders after relaunch`, () => {
      type: ``,
    }}
    onUserHover={jest.fn()}
- />)
+ /></Router>)
  .toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -2,7 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {ActionCreator} from '../../reducer/reducer';
-import {chooseOffersByCity} from '../../utils.js';
+// import {chooseOffersByCity} from '../../utils.js';
+// import {getCurrentOffers} from '../../selectors.js';
 const CITY_COUNT = 6;
 
 class LocationsTab extends React.PureComponent {
@@ -20,11 +21,12 @@ class LocationsTab extends React.PureComponent {
   }
 
   render() {
-    const {onMyClick, offers} = this.props;
+    const {onPlaceClick} = this.props;
+    // console.log(getCurrentOffers(state));
     const handleTabClick = (evt)=>{
       const {target} = evt;
       evt.preventDefault();
-      onMyClick(target.textContent, chooseOffersByCity(target.textContent, offers));
+      onPlaceClick(target.textContent);
     };
     return <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -43,6 +45,7 @@ class LocationsTab extends React.PureComponent {
 LocationsTab.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({
@@ -76,20 +79,22 @@ LocationsTab.propTypes = {
         type: PropTypes.string,
       })
   ),
-  onMyClick: PropTypes.func,
+  onPlaceClick: PropTypes.func,
   currentCity: PropTypes.string,
+  // state: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentCity: state.currentCity,
+  offers: state.offers,
+  // state
 });
 
 const mapDispatchToProps = (dispatch)=>({
-  onMyClick: (city, offers)=>{
+  onPlaceClick: (city)=>{
     dispatch(ActionCreator.changeCity(city));
-    dispatch(ActionCreator.getOffers(
-        offers
-    ));
+    // dispatch(ActionCreator.getOffers(offers));
+    dispatch(ActionCreator.getClosest([]));
   }
 });
 // 1.55

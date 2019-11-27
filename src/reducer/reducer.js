@@ -55,7 +55,10 @@ const initialState = {
   // currentCity: ``,
   // currentOffers: [],
   offers: [],
+  comments: [],
   isLoading: false,
+  closestPoints: [],
+  sortType: `Popular`,
 };
 
 const ActionType = {
@@ -64,6 +67,10 @@ const ActionType = {
   GET_OFFERS: `GET_OFFERS`,
   RESET: `RESET`,
   LOAD_OFFERS: `LOAD_OFFERS`,
+  LOAD_COMMENTS: `LOAD_COMMENTS`,
+  IS_LOADING: `IS_LOADING`,
+  GET_CLOSEST: `GET_CLOSEST`,
+  CHANGE_SORT_TYPE: `CHANGE_SORT_TYPE`,
 };
 
 const reducer = (state = initialState, action)=>{
@@ -82,6 +89,18 @@ const reducer = (state = initialState, action)=>{
     );
     case ActionType.LOAD_OFFERS: return Object.assign(
         {}, state, {offers: action.payload}
+    );
+    case ActionType.LOAD_COMMENTS: return Object.assign(
+        {}, state, {comments: action.payload}
+    );
+    case ActionType.IS_LOADING: return Object.assign(
+        {}, state, {isLoading: action.payload}
+    );
+    case ActionType.GET_CLOSEST: return Object.assign(
+        {}, state, {closestPoints: action.payload}
+    );
+    case ActionType.CHANGE_SORT_TYPE: return Object.assign(
+        {}, state, {sortType: action.payload}
     );
   }
   return state;
@@ -108,6 +127,22 @@ const ActionCreator = {
     type: ActionType.LOAD_OFFERS,
     payload: offers
   }),
+  loadComments: (comments)=>({
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments
+  }),
+  isLoading: (i)=>({
+    type: ActionType.IS_LOADING,
+    payload: i
+  }),
+  getClosest: (closestPoints)=>({
+    type: ActionType.GET_CLOSEST,
+    payload: closestPoints
+  }),
+  changeSortType: (sortType)=>({
+    type: ActionType.CHANGE_SORT_TYPE,
+    payload: sortType
+  }),
 };
 
 const Operation = {
@@ -116,15 +151,41 @@ const Operation = {
     .then((response)=>adapteOffers(response.data))
     .then((offers)=>{
       dispatch(ActionCreator.loadOffers(offers));
-      dispatch(ActionCreator.changeCity(offers[0].city.name));
-      dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city.name, offers)));
-
+      const city = offers[0].city.name;
+      dispatch(ActionCreator.changeCity(city));
+      dispatch(ActionCreator.getOffers(chooseOffersByCity(city, offers)));
+      dispatch(ActionCreator.isLoading(true));
+    });
+  },
+  loadComments: (id) => (dispatch) => {
+    return createAPI(dispatch).get(`/comments/${id}`)
+    .then((response)=>adapteComments(response.data))
+    .then((comments)=>{
+      dispatch(ActionCreator.loadComments(comments));
+    //   dispatch(ActionCreator.changeCity(offers[0].city.name));
+    //   dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city.name, offers)));
     });
   },
 };
 
+const adapteComments = (comments)=>{
+  return comments.map((comment)=>({
+    id: comment.id,
+    user: {
+      id: comment.user.id,
+      isPro: comment.user.is_pro,
+      name: comment.user.name,
+      avatarUrl: comment.user.avatar_url,
+    },
+    rating: comment.rating,
+    comment: comment.comment,
+    date: comment.date,
+  }));
+};
+
 const adapteOffers = (offers)=>{
   return offers.map((offer)=>({
+    bedrooms: offer.bedrooms,
     city: {
       name: offer.city.name,
       location: {
@@ -154,7 +215,7 @@ const adapteOffers = (offers)=>{
     previewImage: offer.preview_image,
     price: offer.price,
     rating: offer.rating,
-    title: offer.titile,
+    title: offer.title,
     type: offer.type,
   }));
 };

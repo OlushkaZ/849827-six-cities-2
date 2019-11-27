@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from '../../reducer/reducer';
+import {ActionCreator, Operation} from '../../reducer/reducer';
+import {Link} from "react-router-dom";
 const PlaceCard = (props) => {
-  const {offer, onUserHover, onClick} = props;
+  const {offer, onUserHover, onTitleClick} = props;
 
   return <article className="cities__place-card place-card" onMouseEnter = {()=>onUserHover(offer.id)} onMouseLeave = {()=>onUserHover(null)}>
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
+    {offer.isPremium ?
+      <div className="place-card__mark">
+        <span>Premium</span>
+      </div> : ``}
     <div className="cities__image-wrapper place-card__image-wrapper">
       <a href="#">
         <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
@@ -29,12 +31,14 @@ const PlaceCard = (props) => {
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{width: `93%`}}></span>
+          <span style={{width: `${Math.round(offer.rating) * 20}%`}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
-      <h2 className="place-card__name" onClick = {onClick}>
-        <a href={`details${offer.id}`}>{offer.title}</a>
+
+      <h2 className="place-card__name" onClick = {()=>onTitleClick(offer.id)}>
+
+        <Link to={`/details${offer.id}`}>{offer.title ? offer.title : `title`}</Link>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>
@@ -43,6 +47,7 @@ const PlaceCard = (props) => {
 
 PlaceCard.propTypes = {
   offer: PropTypes.exact({
+    bedrooms: PropTypes.number,
     city: PropTypes.exact({
       name: PropTypes.string,
       location: PropTypes.exact({
@@ -76,7 +81,7 @@ PlaceCard.propTypes = {
     type: PropTypes.string,
   }),
   onUserHover: PropTypes.func,
-  onClick: PropTypes.func,
+  onTitleClick: PropTypes.func,
 };
 // export default PlaceCard;
 // const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
@@ -89,7 +94,11 @@ const mapDispatchToProps = (dispatch)=>({
     dispatch(ActionCreator.changeCurrentOffer(
         offerID
     ));
-  }
+  },
+  onTitleClick: (offerID)=>{
+    dispatch(Operation.loadComments(offerID));
+    dispatch(ActionCreator.changeCurrentOffer(offerID));
+  },
 });
 export {PlaceCard};
 export default connect(null, mapDispatchToProps

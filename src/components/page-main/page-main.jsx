@@ -3,12 +3,20 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
 import LocationsTab from '../locations-tab/locations-tab.jsx';
+// import {getCurrentOffers} from '../../selectors.js';
 import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
+import withInnerElement from '../../hocs/with-active-item/with-inner-element.js';
 
-const PlaceListWrapped = withActiveItem(PlaceList);
-const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
-
+const PlaceListWrapped = withActiveItem(withInnerElement(PlaceList));
+const PageMain = ({isLoading}) => {
+  // const isLoad = isLoading;
+  if (!isLoading) {
+    return ``;
+  }
+  // const currentOffers = getCurrentOffers(state);
+  // const offers = state.offers;
+  // const currentCity = state.currentCity;
   return <div className="page page--gray page--main">
     <header className="header">
       <div className="container">
@@ -37,7 +45,7 @@ const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <LocationsTab
-          offers={offers}
+          // offers={offers}
           // onMyClick = {()=>{
           //   console.log(`myClick`);
           // }}
@@ -45,41 +53,15 @@ const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
       </div>
       <div className="cities">
         <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex="0">
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom places__options--opened">
-                <li className="places__option places__option--active" tabIndex="0">Popular</li>
-                <li className="places__option" tabIndex="0">Price: low to high</li>
-                <li className="places__option" tabIndex="0">Price: high to low</li>
-                <li className="places__option" tabIndex="0">Top rated first</li>
-              </ul>
-              {/*
-              <select className="places__sorting-type" id="places-sorting">
-                <option className="places__option" value="popular" defaultValue="">Popular</option>
-                <option className="places__option" value="to-high">Price: low to high</option>
-                <option className="places__option" value="to-low">Price: high to low</option>
-                <option className="places__option" value="top-rated">Top rated first</option>
-              </select>
-            */}
-            </form>
-            <PlaceListWrapped
-              offers={offers}
-              onClick = {onClick}
-            />
-          </section>
+          <PlaceListWrapped
+            // offers={offers}
+            // onClick={()=>{}}
+          />
           <div className="cities__right-section">
             <section className="cities__map map">
               <Map
-                offers={offers}
+                // offers={offers}
+                onlyClosest = {false}
               />
             </section>
           </div>
@@ -90,91 +72,89 @@ const PageMain = ({offers, onClick, currentCity, currentOffers}) => {
 
 };
 PageMain.propTypes = {
-  offers: PropTypes.arrayOf(
-      PropTypes.exact({
-        city: PropTypes.exact({
-          name: PropTypes.string,
-          location: PropTypes.exact({
-            latitude: PropTypes.number,
-            longitude: PropTypes.number,
-            zoom: PropTypes.number,
-          })
-        }),
-        description: PropTypes.string,
-        goods: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.exact({
-          avatarUrl: PropTypes.string,
-          id: PropTypes.number,
-          isPro: PropTypes.bool,
-          name: PropTypes.string,
-        }),
-        id: PropTypes.number,
-        images: PropTypes.arrayOf(PropTypes.string),
-        isFavorite: PropTypes.bool,
-        isPremium: PropTypes.bool,
-        location: PropTypes.exact({
-          latitude: PropTypes.number,
-          longitude: PropTypes.number,
-          zoom: PropTypes.number,
-        }),
-        maxAdults: PropTypes.number,
-        previewImage: PropTypes.string,
-        price: PropTypes.number,
-        rating: PropTypes.number,
-        title: PropTypes.string,
-        type: PropTypes.string,
-        //
-        // id: PropTypes.string,
-        // city: PropTypes.string,
-        // title: PropTypes.string,
-        // coast: PropTypes.number,
-        // isPremium: PropTypes.bool,
-        // type: PropTypes.string,
-        // src: PropTypes.string,
-        // coordinates: PropTypes.arrayOf(PropTypes.number)
-      })
-  ),
-  onClick: PropTypes.func,
-  currentCity: PropTypes.string,
-  currentOffers: PropTypes.arrayOf(
-      PropTypes.exact({
-        city: PropTypes.exact({
-          name: PropTypes.string,
-          location: PropTypes.exact({
-            latitude: PropTypes.number,
-            longitude: PropTypes.number,
-            zoom: PropTypes.number,
-          })
-        }),
-        description: PropTypes.string,
-        goods: PropTypes.arrayOf(PropTypes.string),
-        host: PropTypes.exact({
-          avatarUrl: PropTypes.string,
-          id: PropTypes.number,
-          isPro: PropTypes.bool,
-          name: PropTypes.string,
-        }),
-        id: PropTypes.number,
-        images: PropTypes.arrayOf(PropTypes.string),
-        isFavorite: PropTypes.bool,
-        isPremium: PropTypes.bool,
-        location: PropTypes.exact({
-          latitude: PropTypes.number,
-          longitude: PropTypes.number,
-          zoom: PropTypes.number,
-        }),
-        maxAdults: PropTypes.number,
-        previewImage: PropTypes.string,
-        price: PropTypes.number,
-        rating: PropTypes.number,
-        title: PropTypes.string,
-        type: PropTypes.string,
-      })
-  ),
+  // offers: PropTypes.arrayOf(
+  //     PropTypes.exact({
+  //       bedrooms: PropTypes.number,
+  //       city: PropTypes.exact({
+  //         name: PropTypes.string,
+  //         location: PropTypes.exact({
+  //           latitude: PropTypes.number,
+  //           longitude: PropTypes.number,
+  //           zoom: PropTypes.number,
+  //         })
+  //       }),
+  //       description: PropTypes.string,
+  //       goods: PropTypes.arrayOf(PropTypes.string),
+  //       host: PropTypes.exact({
+  //         avatarUrl: PropTypes.string,
+  //         id: PropTypes.number,
+  //         isPro: PropTypes.bool,
+  //         name: PropTypes.string,
+  //       }),
+  //       id: PropTypes.number,
+  //       images: PropTypes.arrayOf(PropTypes.string),
+  //       isFavorite: PropTypes.bool,
+  //       isPremium: PropTypes.bool,
+  //       location: PropTypes.exact({
+  //         latitude: PropTypes.number,
+  //         longitude: PropTypes.number,
+  //         zoom: PropTypes.number,
+  //       }),
+  //       maxAdults: PropTypes.number,
+  //       previewImage: PropTypes.string,
+  //       price: PropTypes.number,
+  //       rating: PropTypes.number,
+  //       title: PropTypes.string,
+  //       type: PropTypes.string,
+  //     })
+  // ),
+  // onClick: PropTypes.func,
+  // currentCity: PropTypes.string,
+  // currentOffers: PropTypes.arrayOf(
+  //     PropTypes.exact({
+  //       bedrooms: PropTypes.number,
+  //       city: PropTypes.exact({
+  //         name: PropTypes.string,
+  //         location: PropTypes.exact({
+  //           latitude: PropTypes.number,
+  //           longitude: PropTypes.number,
+  //           zoom: PropTypes.number,
+  //         })
+  //       }),
+  //       description: PropTypes.string,
+  //       goods: PropTypes.arrayOf(PropTypes.string),
+  //       host: PropTypes.exact({
+  //         avatarUrl: PropTypes.string,
+  //         id: PropTypes.number,
+  //         isPro: PropTypes.bool,
+  //         name: PropTypes.string,
+  //       }),
+  //       id: PropTypes.number,
+  //       images: PropTypes.arrayOf(PropTypes.string),
+  //       isFavorite: PropTypes.bool,
+  //       isPremium: PropTypes.bool,
+  //       location: PropTypes.exact({
+  //         latitude: PropTypes.number,
+  //         longitude: PropTypes.number,
+  //         zoom: PropTypes.number,
+  //       }),
+  //       maxAdults: PropTypes.number,
+  //       previewImage: PropTypes.string,
+  //       price: PropTypes.number,
+  //       rating: PropTypes.number,
+  //       title: PropTypes.string,
+  //       type: PropTypes.string,
+  //     })
+  // ),
+  isLoading: PropTypes.bool,
+  // state: PropTypes.object,
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  currentCity: state.currentCity,
-  currentOffers: state.currentOffers,
+  // state
+  // currentCity: state.currentCity,
+  // currentOffers: state.currentOffers,
+  // offers: state.offers,
+  isLoading: state.isLoading,
 });
 
 // const mapDispatchToProps = (dispatch)=>({

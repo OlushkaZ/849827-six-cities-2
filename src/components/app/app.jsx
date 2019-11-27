@@ -1,32 +1,50 @@
 import React from "react";
-import {connect} from "react-redux";
+// import {connect} from "react-redux";
+import {Route, Switch} from "react-router-dom";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
 import PropTypes from "prop-types";
 
-const getPageScreen = (offers) => {
-  const pathName = (location.pathname.replace(/\d/, ``));
-  const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
-  switch (pathName) {
-    case `/`:
-      // return null;
-      return <PageMain offers={offers} onClick={()=>{}}/>;
-    case `/details`:
-      // return null;
-      return <DetailInfo offerInfo={offers[cardNumber]}/>;
-  }
-  return null;
-};
+// const getPageScreen = (offers) => {
+//   const pathName = (location.pathname.replace(/\d/, ``));
+//   const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
+//   switch (pathName) {
+//     case `/`:
+//       // return null;
+//       return <PageMain offers={offers} onClick={()=>{}}/>;
+//     case `/details`:
+//       // return null;
+//       return <DetailInfo offerInfo={offers[cardNumber]}/>;
+//   }
+//   return null;
+// };
 
-const App = (props) => {
-  const {offers} = props;
-  return getPageScreen(offers);
+const App = () => {
+  // const {offers} = props;
+  // const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
+  // return getPageScreen(offers);
+  return (
+    <Switch>
+      <Route path = '/' exact component={PageMain}/>;
+      <Route path = '/details:id' exact component={DetailInfo}/>;
+      <Route
+        render={() => (
+          <h1>
+            404.
+            <br />
+            <small>Page not found</small>
+          </h1>
+        )}
+      />
+    </Switch>
+  );
 };
 
 App.propTypes = {
   offers: PropTypes.arrayOf(
       PropTypes.exact({
+        bedrooms: PropTypes.number,
         city: PropTypes.exact({
           name: PropTypes.string,
           location: PropTypes.exact({
@@ -64,10 +82,10 @@ App.propTypes = {
 
 // export default App;
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  offers: state.offers,
-  // currentOffers: state.currentOffers,
-});
+// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+//   offers: state.offers,
+// currentOffers: state.currentOffers,
+// });
 
 // const mapDispatchToProps = (dispatch)=>({
 //   onMyClick: (city, offers)=>{
@@ -78,6 +96,6 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
 //   }
 // });
 // 1.55
-export {App};
-export default connect(mapStateToProps, null
-)(App);
+export default App;
+// export default connect(mapStateToProps, null
+// )(App);
