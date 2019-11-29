@@ -3,16 +3,20 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import PlaceList from '../place-list/place-list.jsx';
 import LocationsTab from '../locations-tab/locations-tab.jsx';
+import NoPlace from '../no-place/no-place.jsx';
 // import {getCurrentOffers} from '../../selectors.js';
 import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
 import withInnerElement from '../../hocs/with-active-item/with-inner-element.js';
 
 const PlaceListWrapped = withActiveItem(withInnerElement(PlaceList));
-const PageMain = ({isLoading}) => {
+const PageMain = ({isLoading, offers}) => {
   // const isLoad = isLoading;
   if (!isLoading) {
     return ``;
+  }
+  if (offers.length === 0) {
+    return <NoPlace/>;
   }
   // const currentOffers = getCurrentOffers(state);
   // const offers = state.offers;
@@ -72,42 +76,42 @@ const PageMain = ({isLoading}) => {
 
 };
 PageMain.propTypes = {
-  // offers: PropTypes.arrayOf(
-  //     PropTypes.exact({
-  //       bedrooms: PropTypes.number,
-  //       city: PropTypes.exact({
-  //         name: PropTypes.string,
-  //         location: PropTypes.exact({
-  //           latitude: PropTypes.number,
-  //           longitude: PropTypes.number,
-  //           zoom: PropTypes.number,
-  //         })
-  //       }),
-  //       description: PropTypes.string,
-  //       goods: PropTypes.arrayOf(PropTypes.string),
-  //       host: PropTypes.exact({
-  //         avatarUrl: PropTypes.string,
-  //         id: PropTypes.number,
-  //         isPro: PropTypes.bool,
-  //         name: PropTypes.string,
-  //       }),
-  //       id: PropTypes.number,
-  //       images: PropTypes.arrayOf(PropTypes.string),
-  //       isFavorite: PropTypes.bool,
-  //       isPremium: PropTypes.bool,
-  //       location: PropTypes.exact({
-  //         latitude: PropTypes.number,
-  //         longitude: PropTypes.number,
-  //         zoom: PropTypes.number,
-  //       }),
-  //       maxAdults: PropTypes.number,
-  //       previewImage: PropTypes.string,
-  //       price: PropTypes.number,
-  //       rating: PropTypes.number,
-  //       title: PropTypes.string,
-  //       type: PropTypes.string,
-  //     })
-  // ),
+  offers: PropTypes.arrayOf(
+      PropTypes.exact({
+        bedrooms: PropTypes.number,
+        city: PropTypes.exact({
+          name: PropTypes.string,
+          location: PropTypes.exact({
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
+            zoom: PropTypes.number,
+          })
+        }),
+        description: PropTypes.string,
+        goods: PropTypes.arrayOf(PropTypes.string),
+        host: PropTypes.exact({
+          avatarUrl: PropTypes.string,
+          id: PropTypes.number,
+          isPro: PropTypes.bool,
+          name: PropTypes.string,
+        }),
+        id: PropTypes.number,
+        images: PropTypes.arrayOf(PropTypes.string),
+        isFavorite: PropTypes.bool,
+        isPremium: PropTypes.bool,
+        location: PropTypes.exact({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          zoom: PropTypes.number,
+        }),
+        maxAdults: PropTypes.number,
+        previewImage: PropTypes.string,
+        price: PropTypes.number,
+        rating: PropTypes.number,
+        title: PropTypes.string,
+        type: PropTypes.string,
+      })
+  ),
   // onClick: PropTypes.func,
   // currentCity: PropTypes.string,
   // currentOffers: PropTypes.arrayOf(
@@ -153,7 +157,7 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   // state
   // currentCity: state.currentCity,
   // currentOffers: state.currentOffers,
-  // offers: state.offers,
+  offers: state.offers,
   isLoading: state.isLoading,
 });
 
