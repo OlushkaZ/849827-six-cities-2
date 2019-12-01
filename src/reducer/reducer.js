@@ -8,57 +8,12 @@ const initialState = {
   currentCity: ``,
   currentOffer: 0,
   currentOffers: [],
-  // currentOffers: [
-  //   {
-  //     bedrooms: 2,
-  //     city: {
-  //       location: {
-  //         latitude: 53.550341,
-  //         longitude: 10.000654,
-  //         zoom: 13,
-  //       },
-  //       name: `Hamburg`},
-  //     description: `This is a  sun sets.`,
-  //     goods: [
-  //       `Air conditioning`,
-  //       `Towels`,
-  //       `Washer`,
-  //       `Breakfast`,
-  //       `Fridge`,
-  //     ],
-  //     host: {
-  //       avatarUrl: `img/avatar-angelina.jpg`,
-  //       id: 25,
-  //       isPro: true,
-  //       name: `Angelina`},
-  //     id: 19,
-  //     images: [
-  //       `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/16.jpg`,
-  //       `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/9.jpg`,
-  //       `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/19.jpg`,
-  //     ],
-  //     isFavorite: false,
-  //     isPremium: false,
-  //     location: {
-  //       latitude: 53.573341000000006,
-  //       longitude: 9.994654,
-  //       zoom: 16,
-  //     },
-  //     maxAdults: 4,
-  //     previewImage: `https://htmlacademy-react-2.appspot.com/six-cities/static/hotel/13.jpg`,
-  //     price: 897,
-  //     rating: 4.7,
-  //     title: `Beautiful & luxurious apartment at great location`,
-  //     type: `house`,
-  //
-  //   }],
-  // currentCity: ``,
-  // currentOffers: [],
   offers: [],
   comments: [],
   isLoading: false,
   closestPoints: [],
   sortType: `Popular`,
+  userData: null,
 };
 
 const ActionType = {
@@ -71,6 +26,7 @@ const ActionType = {
   IS_LOADING: `IS_LOADING`,
   GET_CLOSEST: `GET_CLOSEST`,
   CHANGE_SORT_TYPE: `CHANGE_SORT_TYPE`,
+  LOAD_USER_DATA: `LOAD_USER_DATA`,
 };
 
 const reducer = (state = initialState, action)=>{
@@ -101,6 +57,9 @@ const reducer = (state = initialState, action)=>{
     );
     case ActionType.CHANGE_SORT_TYPE: return Object.assign(
         {}, state, {sortType: action.payload}
+    );
+    case ActionType.LOAD_USER_DATA: return Object.assign(
+        {}, state, {userData: action.payload}
     );
   }
   return state;
@@ -143,6 +102,10 @@ const ActionCreator = {
     type: ActionType.CHANGE_SORT_TYPE,
     payload: sortType
   }),
+  loadUserData: (userData)=>({
+    type: ActionType.LOAD_USER_DATA,
+    payload: userData
+  }),
 };
 
 const Operation = {
@@ -162,12 +125,23 @@ const Operation = {
     .then((response)=>adapteComments(response.data))
     .then((comments)=>{
       dispatch(ActionCreator.loadComments(comments));
-    //   dispatch(ActionCreator.changeCity(offers[0].city.name));
-    //   dispatch(ActionCreator.getOffers(chooseOffersByCity(offers[0].city.name, offers)));
     });
+  },
+  login: (loginData) => (dispatch) => {
+    return createAPI(dispatch).post(`/login`, loginData)
+    .then((response)=>ActionCreator.loadUserData(adapteUserData(response.data)));
   },
 };
 
+const adapteUserData = (userData)=>{
+  return ({
+    id: userData.id,
+    email: userData.email,
+    name: userData.name,
+    avatarUrl: userData.avatar_url,
+    isPro: userData.is_pro,
+  });
+};
 const adapteComments = (comments)=>{
   return comments.map((comment)=>({
     id: comment.id,

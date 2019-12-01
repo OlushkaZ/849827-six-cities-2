@@ -4,6 +4,7 @@ import {Route, Switch} from "react-router-dom";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
+import SignIn from '../sign-in/sign-in.jsx';
 import PropTypes from "prop-types";
 
 // const getPageScreen = (offers) => {
@@ -28,6 +29,7 @@ const App = () => {
     <Switch>
       <Route path = '/' exact component={PageMain}/>;
       <Route path = '/details:id' exact component={DetailInfo}/>;
+      <Route path = '/sign_in' exact component={SignIn}/>;
       <Route
         render={() => (
           <h1>
