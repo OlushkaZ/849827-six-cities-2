@@ -8,9 +8,11 @@ import NoPlace from '../no-place/no-place.jsx';
 import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
 import withInnerElement from '../../hocs/with-active-item/with-inner-element.js';
+import HeaderNavSignIn from '../header-nav-sign-in/header-nav-sign-in.jsx';
+import HeaderNavUserName from '../header-nav-user-name/header-nav-user-name.jsx';
 
 const PlaceListWrapped = withActiveItem(withInnerElement(PlaceList));
-const PageMain = ({isLoading, offers}) => {
+const PageMain = ({isLoading, offers, userData}) => {
   // const isLoad = isLoading;
   if (!isLoading) {
     return ``;
@@ -30,17 +32,7 @@ const PageMain = ({isLoading, offers}) => {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
             </a>
           </div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <a className="header__nav-link header__nav-link--profile" href="#">
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
-                  </div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          {userData === null ? <HeaderNavSignIn/> : <HeaderNavUserName name = {userData.email}/>}
         </div>
       </div>
     </header>
@@ -76,6 +68,7 @@ const PageMain = ({isLoading, offers}) => {
 
 };
 PageMain.propTypes = {
+  userData: PropTypes.object,
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         bedrooms: PropTypes.number,
@@ -159,6 +152,7 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   // currentOffers: state.currentOffers,
   offers: state.offers,
   isLoading: state.isLoading,
+  userData: state.userData,
 });
 
 // const mapDispatchToProps = (dispatch)=>({

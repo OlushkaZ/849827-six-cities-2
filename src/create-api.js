@@ -13,6 +13,7 @@ const createAPI = (dispatch) => {
   const onFail = (err) => {
     if (err.response.status === 403) {
       dispatch(ActionCreator.reset());
+      // dispatch(ActionCreator.requireAutorization());
     }
     return err;
   };
