@@ -2,10 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Operation} from '../../reducer/reducer';
+import {useHistory} from "react-router-dom";
 const SignIn = (props)=>{
   const {onButtonClick} = props;
+
   const HandlerButtonClick = ()=>{
-    onButtonClick(`Oliver.conner@gmail.com`, `12345678`);
+    const history = useHistory();
+    // onButtonClick(`Oliver.conner@gmail.com`, `12345678`);
+    history.push(`/`);
+  };
+
+  const submitText = (e)=>{
+    e.preventDefault();
   };
 
   return <div className="page page--gray page--login">
@@ -36,7 +44,7 @@ const SignIn = (props)=>{
       <div className="page__login-container container">
         <section className="login">
           <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" action="/" method="post">
+          <form className="login__form form" action="/" method="post" onSubmit={submitText}>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
               <input className="login__input form__input" type="email" name="email" placeholder="Email" required=""/>
