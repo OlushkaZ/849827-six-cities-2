@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Operation} from '../../reducer/reducer';
 import {useHistory} from "react-router-dom";
-const SignIn = (props)=>{
-  const {onButtonClick} = props;
+const SignIn = ()=>{
+  // const {onButtonClick} = props;
 
   const HandlerButtonClick = ()=>{
     const history = useHistory();
