@@ -32,7 +32,7 @@ const PageMain = ({isLoading, offers, userData}) => {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
             </a>
           </div>
-          {userData === null ? <HeaderNavSignIn/> : <HeaderNavUserName name = {userData.email}/>}
+          {userData === null ? <HeaderNavSignIn/> : <HeaderNavUserName email = {userData.email}/>}
         </div>
       </div>
     </header>

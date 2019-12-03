@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Operation} from '../../reducer/reducer';
 import {useHistory} from "react-router-dom";
-const SignIn = ()=>{
-  // const {onButtonClick} = props;
+const SignIn = (props)=>{
+  const {onButtonClick} = props;
 
+  const history = useHistory();
   const HandlerButtonClick = ()=>{
-    const history = useHistory();
-    // onButtonClick(`Oliver.conner@gmail.com`, `12345678`);
+    onButtonClick(`Olive.conner@gmail.com`, `12345678`);
     history.push(`/`);
   };
 

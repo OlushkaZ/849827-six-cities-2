@@ -129,7 +129,7 @@ const Operation = {
   },
   login: (loginData) => (dispatch) => {
     return createAPI(dispatch).post(`/login`, loginData)
-    .then((response)=>ActionCreator.loadUserData(adapteUserData(response.data)));
+    .then((response)=>dispatch(ActionCreator.loadUserData(adapteUserData(response.data))));
   },
 };
 
