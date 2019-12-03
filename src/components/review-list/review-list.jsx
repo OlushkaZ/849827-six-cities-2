@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import ReviewItem from '../review-item/review-item.jsx';
+import ReviewForm from '../review-form/review-form.jsx';
 const ReviewList = ({comments})=> {
   return <section className="property__reviews reviews">
     <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
@@ -13,6 +14,8 @@ const ReviewList = ({comments})=> {
         />;
       })}
     </ul>
+    <ReviewForm>
+    </ReviewForm>
   </section>;
 };
 

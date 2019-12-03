@@ -7,7 +7,7 @@ import {chooseOffersByCity} from '../utils.js';
 const initialState = {
   currentCity: ``,
   currentOffer: 0,
-  currentOffers: [],
+  // currentOffers: [],
   offers: [],
   comments: [],
   isLoading: false,
@@ -130,6 +130,13 @@ const Operation = {
   login: (loginData) => (dispatch) => {
     return createAPI(dispatch).post(`/login`, loginData)
     .then((response)=>dispatch(ActionCreator.loadUserData(adapteUserData(response.data))));
+  },
+  putComment: (hotelID, comment) => (dispatch) => {
+    return createAPI(dispatch).post(`/comments/${hotelID}`, comment)
+    .then((response)=>adapteComments(response.data))
+    .then((comments)=>{
+      dispatch(ActionCreator.loadComments(comments));
+    });
   },
 };
 

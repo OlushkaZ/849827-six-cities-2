@@ -1,8 +1,22 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {Operation} from '../../reducer/reducer';
+import PropTypes from "prop-types";
 
-const ReviewForm = ()=>{
-  return <form className="reviews__form form" action="#" method="post">
+const ReviewForm = (props)=>{
+  const {onButtonClick, currentOffer} = props;
+
+  // const history = useHistory();
+  const HandlerButtonClick = ()=>{
+    onButtonClick(currentOffer, 4, `Oj;j ;lj;lk j;lk j;lkj ;lkj ;lkj ;`);
+    // history.push(`/`);
+  };
+
+  const submitText = (e)=>{
+    e.preventDefault();
+  };
+
+  return <form className="reviews__form form" action="#" method="post" onSubmit={submitText}>
     <label className="reviews__label form__label" htmlFor="review">Your review</label>
     <div className="reviews__rating-form form__rating">
       <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"/>
@@ -45,8 +59,28 @@ const ReviewForm = ()=>{
       <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
       </p>
-      <button className="reviews__submit form__submit button" type="submit" disabled="">Submit</button>
+      <button className="reviews__submit form__submit button" type="submit" disabled="" onClick = {HandlerButtonClick}>Submit</button>
     </div>
   </form>;
 };
-export default ReviewForm;
+
+ReviewForm.propTypes = {
+  currentOffer: PropTypes.number,
+  onButtonClick: PropTypes.func,
+};
+
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  currentOffer: state.currentOffer,
+});
+
+const mapDispatchToProps = (dispatch)=>({
+  onButtonClick: (hotelID, rating, comment)=>{
+    dispatch(Operation.putComment(hotelID, {
+      rating,
+      comment
+    }));
+  }
+});
+export {ReviewForm};
+export default connect(mapStateToProps, mapDispatchToProps
+)(ReviewForm);
