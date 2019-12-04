@@ -17,7 +17,6 @@ const withRatingCheckbox = (Component) => {
       const target = event.target;
       const value = target.value;
       const name = target.name;
-      console.log(target.checked);
 
       this.setState({
         [name]: value});

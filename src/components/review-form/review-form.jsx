@@ -5,12 +5,14 @@ import PropTypes from "prop-types";
 
 const ReviewForm = (props)=>{
   const {onButtonClick, currentOffer, rating, review, handleInputChange, resetState} = props;
+  const textInput = React.createRef();
 
-  // const history = useHistory();
   const HandleButtonClick = ()=>{
-    onButtonClick(currentOffer, rating, review);
-    resetState();
-    // history.push(`/`);
+    if (rating && review) {
+      onButtonClick(currentOffer, rating, review);
+      resetState();
+      textInput.current.focus();
+    }
   };
 
   const submit = (e)=>{
@@ -56,7 +58,7 @@ const ReviewForm = (props)=>{
         </svg>
       </label>
     </div>
-    <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={review} onChange={handleInputChange}></textarea>
+    <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={review} onChange={handleInputChange} ref={textInput}></textarea>
     <div className="reviews__button-wrapper">
       <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
