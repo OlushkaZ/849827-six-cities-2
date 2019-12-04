@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import ReviewItem from '../review-item/review-item.jsx';
 import ReviewForm from '../review-form/review-form.jsx';
+import withRatingCheckbox from '../../hocs/with-rating-checkbox/with-rating-checkbox.js';
+const ReviewFormWrapped = withRatingCheckbox(ReviewForm);
 const ReviewList = ({comments})=> {
   return <section className="property__reviews reviews">
     <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
@@ -14,8 +16,8 @@ const ReviewList = ({comments})=> {
         />;
       })}
     </ul>
-    <ReviewForm>
-    </ReviewForm>
+    <ReviewFormWrapped>
+    </ReviewFormWrapped>
   </section>;
 };
 

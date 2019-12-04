@@ -7,7 +7,7 @@ import NoPlace from '../no-place/no-place.jsx';
 // import {getCurrentOffers} from '../../selectors.js';
 import Map from '../map/map.jsx';
 import withActiveItem from '../../hocs/with-active-item/with-active-item.js';
-import withInnerElement from '../../hocs/with-active-item/with-inner-element.js';
+import withInnerElement from '../../hocs/with-inner-element/with-inner-element.js';
 import HeaderNavSignIn from '../header-nav-sign-in/header-nav-sign-in.jsx';
 import HeaderNavUserName from '../header-nav-user-name/header-nav-user-name.jsx';
 
