@@ -4,15 +4,25 @@ import {connect} from "react-redux";
 import {Operation} from '../../reducer/reducer';
 import {useHistory} from "react-router-dom";
 const SignIn = (props)=>{
-  const {onButtonClick} = props;
+  const {onButtonClick, state, handleInputChange} = props;
+  const emailInput = React.createRef();
+  const passInput = React.createRef();
 
   const history = useHistory();
-  const HandlerButtonClick = ()=>{
-    onButtonClick(`Olive.conner@gmail.com`, `12345678`);
-    history.push(`/`);
+  const HandleButtonClick = ()=>{
+    if (state.email && state.password) {
+      onButtonClick(state.email, state.password);
+      history.push(`/`);
+    } else {
+      if (!state.email) {
+        emailInput.current.focus();
+      } else {
+        passInput.current.focus();
+      }
+    }
   };
 
-  const submitText = (e)=>{
+  const submit = (e)=>{
     e.preventDefault();
   };
 
@@ -44,16 +54,16 @@ const SignIn = (props)=>{
       <div className="page__login-container container">
         <section className="login">
           <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" action="/" method="post" onSubmit={submitText}>
+          <form className="login__form form" action="/" method="post" onSubmit={submit}>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
-              <input className="login__input form__input" type="email" name="email" placeholder="Email" required=""/>
+              <input className="login__input form__input" type="email" name="email" placeholder="Email" required="" value={state.email} onChange={handleInputChange} ref={emailInput}/>
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
-              <input className="login__input form__input" type="password" name="password" placeholder="Password" required=""/>
+              <input className="login__input form__input" type="password" name="password" placeholder="Password" required="" value={state.password} onChange={handleInputChange} ref={passInput}/>
             </div>
-            <button className="login__submit form__submit button" onClick = {HandlerButtonClick} type="submit">Sign in</button>
+            <button className="login__submit form__submit button" onClick = {HandleButtonClick} type="submit">Sign in</button>
           </form>
         </section>
         <section className="locations locations--login locations--current">
@@ -69,6 +79,8 @@ const SignIn = (props)=>{
 };
 SignIn.propTypes = {
   onButtonClick: PropTypes.func,
+  handleInputChange: PropTypes.func,
+  state: PropTypes.object,
 };
 
 const mapDispatchToProps = (dispatch)=>({

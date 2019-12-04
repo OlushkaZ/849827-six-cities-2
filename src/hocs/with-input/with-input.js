@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 
-const withRatingCheckbox = (Component) => {
-  class WithRatingCheckbox extends PureComponent {
+const withInput = (Component) => {
+  class WithInput extends PureComponent {
     constructor(props) {
       super(props);
 
@@ -40,9 +40,9 @@ const withRatingCheckbox = (Component) => {
       />;
     }
   }
-  WithRatingCheckbox.propTypes = {};
+  WithInput.propTypes = {};
 
-  return WithRatingCheckbox;
+  return WithInput;
 };
 
-export default withRatingCheckbox;
+export default withInput;

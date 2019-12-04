@@ -1,11 +1,13 @@
 import React from "react";
 // import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
+import PropTypes from "prop-types";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
-import PropTypes from "prop-types";
+import withInput from '../../hocs/with-input/with-input.js';
+const SignInWrapped = withInput(SignIn);
 
 // const getPageScreen = (offers) => {
 //   const pathName = (location.pathname.replace(/\d/, ``));
@@ -29,7 +31,7 @@ const App = () => {
     <Switch>
       <Route path = '/' exact component={PageMain}/>;
       <Route path = '/details:id' exact component={DetailInfo}/>;
-      <Route path = '/sign_in' exact component={SignIn}/>;
+      <Route path = '/sign_in' exact component={SignInWrapped}/>;
       <Route
         render={() => (
           <h1>
