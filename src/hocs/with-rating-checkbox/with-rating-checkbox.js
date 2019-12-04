@@ -6,8 +6,8 @@ const withRatingCheckbox = (Component) => {
       super(props);
 
       this.state = {
-        rating: ``,
-        review: ``,
+        // rating: ``,
+        // review: ``,
       };
       this.handleInputChange = this.handleInputChange.bind(this);
       this.resetState = this.resetState.bind(this);
@@ -32,8 +32,9 @@ const withRatingCheckbox = (Component) => {
     render() {
       return <Component
         {...this.props}
-        rating = {this.state.rating}
-        review = {this.state.review}
+        // rating = {this.state.rating}
+        // review = {this.state.review}
+        state = {this.state}
         handleInputChange={this.handleInputChange}
         resetState={this.resetState}
       />;
