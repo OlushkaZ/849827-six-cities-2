@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const HeaderNavUserName = ({email})=>{
+  console.log(`show head nav user` + email);
   return <nav className="header__nav">
     <ul className="header__nav-list">
       <li className="header__nav-item user">

@@ -15,6 +15,9 @@ const createAPI = (dispatch) => {
       dispatch(ActionCreator.reset());
       // dispatch(ActionCreator.requireAutorization());
     }
+    if (err.response.status === 401) {
+      dispatch(ActionCreator.loadUserData(null));
+    }
     return err;
   };
   configureAPI.interceptors.response.use(onSuccess, onFail);

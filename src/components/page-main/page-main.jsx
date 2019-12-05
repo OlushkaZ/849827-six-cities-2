@@ -17,6 +17,7 @@ const PageMain = ({isLoading, offers, userData}) => {
   if (!isLoading) {
     return ``;
   }
+  console.log(`show main start` + userData.email);
   if (offers.length === 0) {
     return <NoPlace/>;
   }

@@ -102,10 +102,13 @@ const ActionCreator = {
     type: ActionType.CHANGE_SORT_TYPE,
     payload: sortType
   }),
-  loadUserData: (userData)=>({
-    type: ActionType.LOAD_USER_DATA,
-    payload: userData
-  }),
+  loadUserData: (userData)=>{
+    console.log(`load ` + userData.email)
+    return ({
+      type: ActionType.LOAD_USER_DATA,
+      payload: userData
+    });
+  },
 };
 
 const Operation = {
@@ -127,10 +130,6 @@ const Operation = {
       dispatch(ActionCreator.loadComments(comments));
     });
   },
-  login: (loginData) => (dispatch) => {
-    return createAPI(dispatch).post(`/login`, loginData)
-    .then((response)=>dispatch(ActionCreator.loadUserData(adapteUserData(response.data))));
-  },
   putComment: (hotelID, comment) => (dispatch) => {
     return createAPI(dispatch).post(`/comments/${hotelID}`, comment)
     .then((response)=>adapteComments(response.data))
@@ -138,9 +137,20 @@ const Operation = {
       dispatch(ActionCreator.loadComments(comments));
     });
   },
+  login: (loginData) => (dispatch) => {
+    return createAPI(dispatch).post(`/login`, loginData)
+    .then((response)=>dispatch(ActionCreator.loadUserData(adapteUserData(response.data))));
+  },
+  getLogin: () => (dispatch) => {
+    return createAPI(dispatch).get(`/login`)
+    .then((response)=>dispatch(ActionCreator.loadUserData(adapteUserData(response.data))));
+  }
 };
 
 const adapteUserData = (userData)=>{
+  if (!userData) {
+    return null;
+  }
   return ({
     id: userData.id,
     email: userData.email,
@@ -149,6 +159,7 @@ const adapteUserData = (userData)=>{
     isPro: userData.is_pro,
   });
 };
+
 const adapteComments = (comments)=>{
   return comments.map((comment)=>({
     id: comment.id,

@@ -6,7 +6,7 @@ import ReviewForm from '../review-form/review-form.jsx';
 import withInput from '../../hocs/with-input/with-input.js';
 const ReviewFormWrapped = withInput(ReviewForm);
 
-const ReviewList = ({comments})=> {
+const ReviewList = ({comments, userData})=> {
   return <section className="property__reviews reviews">
     <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
     <ul className="reviews__list">
@@ -17,12 +17,17 @@ const ReviewList = ({comments})=> {
         />;
       })}
     </ul>
-    <ReviewFormWrapped>
-    </ReviewFormWrapped>
+    {userData ?
+      <ReviewFormWrapped>
+      </ReviewFormWrapped>
+      : ``
+    }
   </section>;
 };
 
+
 ReviewList.propTypes = {
+  userData: PropTypes.object,
   comments: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.number,
@@ -40,7 +45,9 @@ ReviewList.propTypes = {
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   comments: state.comments,
+  userData: state.userData,
 });
+
 export {ReviewList};
 export default connect(mapStateToProps, null
 )(ReviewList);

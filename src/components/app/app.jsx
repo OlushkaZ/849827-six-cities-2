@@ -1,6 +1,6 @@
 import React from "react";
-// import {connect} from "react-redux";
-import {Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
+import {Route, Switch, Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
@@ -8,30 +8,37 @@ import DetailInfo from '../detail-info/detail-info.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
 import withInput from '../../hocs/with-input/with-input.js';
 const SignInWrapped = withInput(SignIn);
+// const a = 3;
+const PrivateRoute = ({component: Component, userData}) => (
+  <Route
+    render= {(props) =>{
+      console.log(`check` + userData);
+      return !userData ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/" />
+      );
+    }
+    }
+  />
+);
 
-// const getPageScreen = (offers) => {
-//   const pathName = (location.pathname.replace(/\d/, ``));
-//   const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
-//   switch (pathName) {
-//     case `/`:
-//       // return null;
-//       return <PageMain offers={offers} onClick={()=>{}}/>;
-//     case `/details`:
-//       // return null;
-//       return <DetailInfo offerInfo={offers[cardNumber]}/>;
-//   }
-//   return null;
-// };
-
-const App = () => {
-  // const {offers} = props;
+const App = (props) => {
+  const {userData} = props;
   // const cardNumber = Number(location.pathname.replace(`/details`, ``)) - 1;
   // return getPageScreen(offers);
   return (
     <Switch>
       <Route path = '/' exact component={PageMain}/>;
       <Route path = '/details:id' exact component={DetailInfo}/>;
-      <Route path = '/sign_in' exact component={SignInWrapped}/>;
+      { // <Route path = '/sign_in' exact component={SignInWrapped}/>;
+      }
+      <PrivateRoute
+        path="/sign_in"
+        exact
+        component={SignInWrapped}
+        userData = {userData}
+      />
       <Route
         render={() => (
           <h1>
@@ -45,7 +52,12 @@ const App = () => {
   );
 };
 
+PrivateRoute.propTypes = {
+  component: PropTypes.func,
+  userData: PropTypes.object,
+};
 App.propTypes = {
+  userData: PropTypes.object,
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         bedrooms: PropTypes.number,
@@ -86,10 +98,9 @@ App.propTypes = {
 
 // export default App;
 
-// const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-//   offers: state.offers,
-// currentOffers: state.currentOffers,
-// });
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  userData: state.userData,
+});
 
 // const mapDispatchToProps = (dispatch)=>({
 //   onMyClick: (city, offers)=>{
@@ -100,6 +111,6 @@ App.propTypes = {
 //   }
 // });
 // 1.55
-export default App;
-// export default connect(mapStateToProps, null
-// )(App);
+export {App};
+export default connect(mapStateToProps, null
+)(App);

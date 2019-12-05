@@ -21,6 +21,7 @@ const init = () => {
       )
   );
   /* eslint-enable */
+  store.dispatch(Operation.getLogin());
   store.dispatch(Operation.loadOffers());
 
   ReactDOM.render(<Provider store={store}>
