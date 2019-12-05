@@ -103,7 +103,7 @@ const ActionCreator = {
     payload: sortType
   }),
   loadUserData: (userData)=>{
-    console.log(`load ` + userData.email)
+    console.log(`load ` + (userData ? `userData` : `null`))
     return ({
       type: ActionType.LOAD_USER_DATA,
       payload: userData
