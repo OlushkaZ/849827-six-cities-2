@@ -144,7 +144,25 @@ const Operation = {
   getLogin: () => (dispatch) => {
     return createAPI(dispatch).get(`/login`)
     .then((response)=>dispatch(ActionCreator.loadUserData(adapteUserData(response.data))));
-  }
+  },
+  getFavorite: () => (dispatch) => {
+    return createAPI(dispatch).get(`/favorite`)
+    .then((response)=>console.log(adapteOffers(response.data)));
+  },
+  putFavorite: (hotelID, isFavorite) => (dispatch) => {
+    return createAPI(dispatch).post(`/favorite/${hotelID}/${isFavorite}`)
+    // .then((response)=>adapteOffers(response.data))
+    // .then(createAPI(dispatch).get(`/hotels`)
+    //         .then((response)=>adapteOffers(response.data))
+    //         .then((offers)=>{
+    //           dispatch(ActionCreator.loadOffers(offers));
+    //         }))
+    .then((response)=>{
+      console.log(`put: ` + response.data)
+      // dispatch(ActionCreator.loadComments(comments));
+    })
+    ;
+  },
 };
 
 const adapteUserData = (userData)=>{

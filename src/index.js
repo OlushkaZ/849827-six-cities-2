@@ -23,6 +23,8 @@ const init = () => {
   /* eslint-enable */
   store.dispatch(Operation.getLogin());
   store.dispatch(Operation.loadOffers());
+  store.dispatch(Operation.putFavorite(2, 1));
+  store.dispatch(Operation.getFavorite());
 
   ReactDOM.render(<Provider store={store}>
     <BrowserRouter>

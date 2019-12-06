@@ -1,13 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Operation} from '../../reducer/reducer';
 import {Link} from "react-router-dom";
 import ReviewList from '../review-list/review-list.jsx';
 import NearPlaceList from '../near-place-list/near-place-list.jsx';
 import Map from '../map/map.jsx';
 const DetailInfo = (props) => {
-  const {offers, match} = props;
+  const {offers, match, onButtonFavoriteClick} = props;
   const offerInfo = offers.filter((offer)=>offer.id === Number(match.params.id))[0];
+  const handleButtonFavoriteClick = (evt)=>{
+    const target = evt.target;
+    target.style.fill = `#ff0000`;
+    onButtonFavoriteClick(offerInfo.id, 1);
+  };
 
   return <div className="page">
     <header className="header">
@@ -54,7 +60,7 @@ const DetailInfo = (props) => {
               <h1 className="property__name">
                 {offerInfo.title}
               </h1>
-              <button className="property__bookmark-button button" type="button">
+              <button className="property__bookmark-button button" type="button" onClick = {handleButtonFavoriteClick}>
                 <svg className="property__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -131,6 +137,7 @@ const DetailInfo = (props) => {
 };
 
 DetailInfo.propTypes = {
+  onButtonFavoriteClick: PropTypes.func,
   offers: PropTypes.arrayOf(
       PropTypes.exact({
         bedrooms: PropTypes.number,
@@ -174,6 +181,12 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   currentOffer: state.currentOffer,
 });
 
+const mapDispatchToProps = (dispatch)=>({
+  onButtonFavoriteClick: (hotelID, isFavorite)=>{
+    dispatch(Operation.putFavorite(hotelID, isFavorite));
+  }
+});
+
 export {DetailInfo};
-export default connect(mapStateToProps, null
+export default connect(mapStateToProps, mapDispatchToProps
 )(DetailInfo);
