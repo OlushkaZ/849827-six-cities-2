@@ -123,6 +123,14 @@ const Operation = {
       dispatch(ActionCreator.isLoading(true));
     });
   },
+  refreshOffers: () => (dispatch) => {
+    return createAPI(dispatch).get(`/hotels`)
+    .then((response)=>adapteOffers(response.data))
+    .then((offers)=>{
+      dispatch(ActionCreator.loadOffers(offers));
+      dispatch(ActionCreator.isLoading(true));
+    });
+  },
   loadComments: (id) => (dispatch) => {
     return createAPI(dispatch).get(`/comments/${id}`)
     .then((response)=>adapteComments(response.data))

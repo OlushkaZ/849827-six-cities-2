@@ -1,6 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import {ActionCreator, Operation} from '../../reducer/reducer';
+import {Link} from "react-router-dom";
 import PlaceList from '../place-list/place-list.jsx';
 import LocationsTab from '../locations-tab/locations-tab.jsx';
 import NoPlace from '../no-place/no-place.jsx';
@@ -12,8 +14,12 @@ import HeaderNavSignIn from '../header-nav-sign-in/header-nav-sign-in.jsx';
 import HeaderNavUserName from '../header-nav-user-name/header-nav-user-name.jsx';
 
 const PlaceListWrapped = withActiveItem(withInnerElement(PlaceList));
-const PageMain = ({isLoading, offers, userData}) => {
+
+const PageMain = ({isLoading, offers, userData, onLogoClick}) => {
   // const isLoad = isLoading;
+  const handleLogoClick = ()=>{
+    onLogoClick();
+  };
   if (!isLoading) {
     return ``;
   }
@@ -29,9 +35,9 @@ const PageMain = ({isLoading, offers, userData}) => {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link header__logo-link--active">
+            <Link to="/" className="header__logo-link header__logo-link--active" onClick={handleLogoClick}>
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-            </a>
+            </Link>
           </div>
           {userData === null ? <HeaderNavSignIn/> : <HeaderNavUserName email = {userData.email}/>}
         </div>
@@ -69,6 +75,7 @@ const PageMain = ({isLoading, offers, userData}) => {
 
 };
 PageMain.propTypes = {
+  onLogoClick: PropTypes.func,
   userData: PropTypes.object,
   offers: PropTypes.arrayOf(
       PropTypes.exact({
@@ -148,23 +155,18 @@ PageMain.propTypes = {
   // state: PropTypes.object,
 };
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  // state
-  // currentCity: state.currentCity,
-  // currentOffers: state.currentOffers,
   offers: state.offers,
   isLoading: state.isLoading,
   userData: state.userData,
 });
 
-// const mapDispatchToProps = (dispatch)=>({
-//   onMyClick: (city, offers)=>{
-//     dispatch(ActionCreator.changeCity(city));
-//     dispatch(ActionCreator.getOffers(
-//         offers
-//     ));
-//   }
-// });
+const mapDispatchToProps = (dispatch)=>({
+  onLogoClick: ()=>{
+    dispatch(Operation.refreshOffers());
+    dispatch(ActionCreator.isLoading(false));
+  }
+});
 // 1.55
 export {PageMain};
-export default connect(mapStateToProps, null
+export default connect(mapStateToProps, mapDispatchToProps
 )(PageMain);

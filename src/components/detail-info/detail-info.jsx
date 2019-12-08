@@ -9,10 +9,19 @@ import Map from '../map/map.jsx';
 const DetailInfo = (props) => {
   const {offers, match, onButtonFavoriteClick} = props;
   const offerInfo = offers.filter((offer)=>offer.id === Number(match.params.id))[0];
+  const buttonFavorite = React.createRef();
+  // buttonFavorite.current.style.fill = `#ff0000`;
+  let isFavorite = offerInfo.isFavorite;
   const handleButtonFavoriteClick = (evt)=>{
     const target = evt.target;
-    target.style.fill = `#ff0000`;
-    onButtonFavoriteClick(offerInfo.id, 1);
+    if (isFavorite) {
+      target.style.fill = `#ffffff`;
+      onButtonFavoriteClick(offerInfo.id, 0);
+    } else {
+      target.style.fill = `#4481c3`;
+      onButtonFavoriteClick(offerInfo.id, 1);
+    }
+    isFavorite = !isFavorite;
   };
 
   return <div className="page">
@@ -60,7 +69,7 @@ const DetailInfo = (props) => {
               <h1 className="property__name">
                 {offerInfo.title}
               </h1>
-              <button className="property__bookmark-button button" type="button" onClick = {handleButtonFavoriteClick}>
+              <button className="property__bookmark-button button" type="button" onClick = {handleButtonFavoriteClick} ref = {buttonFavorite}>
                 <svg className="property__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
