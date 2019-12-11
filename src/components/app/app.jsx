@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 // import {ActionCreator} from '../../reducer/reducer';
 import PageMain from '../page-main/page-main.jsx';
 import DetailInfo from '../detail-info/detail-info.jsx';
+import Favorites from '../favorites/favorites.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
 import withInput from '../../hocs/with-input/with-input.js';
 const SignInWrapped = withInput(SignIn);
@@ -15,6 +16,18 @@ const PrivateRoute = ({component: Component, userData}) => (
       console.log(`check` + userData);
       return !userData ? (
         <Component {...props} />
+      ) : (
+        <Redirect to="/" />
+      );
+    }
+    }
+  />
+);
+const FavoriteRoute = ({component: Component, userData}) => (
+  <Route
+    render= {(props) =>{
+      return userData ? (
+        <Component {...props} userData = {userData} />
       ) : (
         <Redirect to="/" />
       );
@@ -39,6 +52,12 @@ const App = (props) => {
         component={SignInWrapped}
         userData = {userData}
       />
+      <FavoriteRoute
+        path="/favorites"
+        exact
+        component={Favorites}
+        userData = {userData}
+      />
       <Route
         render={() => (
           <h1>
@@ -56,7 +75,14 @@ PrivateRoute.propTypes = {
   component: PropTypes.func,
   userData: PropTypes.object,
 };
+
+FavoriteRoute.propTypes = {
+  component: PropTypes.func,
+  userData: PropTypes.object,
+};
+
 App.propTypes = {
+
   userData: PropTypes.object,
   offers: PropTypes.arrayOf(
       PropTypes.exact({
